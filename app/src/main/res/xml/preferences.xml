@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceCategory
+        android:key="pref_key_label_settings"
+        android:title="Labels">
+        <ListPreference
+            android:defaultValue="0"
+            android:entries="@array/pref_field_type"
+            android:entryValues="@array/pref_field_type_values"
+            android:key="field_type"
+            android:title="Field Type" />
+
+        <ListPreference
+            android:defaultValue="1"
+            android:entries="@array/pref_hash_type"
+            android:entryValues="@array/pref_hash_type_values"
+            android:key="hash_type"
+            android:title="Hash Names" />
+
+        <ListPreference
+            android:defaultValue="1"
+            android:entries="@array/pref_side_type"
+            android:entryValues="@array/pref_side_type_values"
+            android:key="side_type"
+            android:title="Side Names" />
+    </PreferenceCategory>
+    <PreferenceCategory
+        android:key="pref_key_specificity_settings"
+        android:title="Specificity">
+
+        <ListPreference
+            android:defaultValue="3"
+            android:entries="@array/pref_specificity"
+            android:entryValues="@array/pref_specificity_values"
+            android:key="decimal_places"
+            android:summary="How many decimal places to round to!"
+            android:title="Step Size Specificity" />
+    </PreferenceCategory>
+</PreferenceScreen>

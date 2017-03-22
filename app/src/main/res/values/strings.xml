@@ -1,0 +1,72 @@
+<resources>
+    <string name="app_name">Marching Buddy</string>
+    <string name="left_to_right">Left To Right</string>
+    <string name="steps">Steps</string>
+    <string name="on">On</string>
+    <string name="inside">Inside</string>
+    <string name="outside">Outside</string>
+    <string name="side_1">Side 1</string>
+    <string name="side_2">Side 2</string>
+    <string name="yardline">Yardline</string>
+    <string name="front_to_back">Front To Back</string>
+    <string name="in_front">In Front</string>
+    <string name="behind">Behind</string>
+    <string name="front">Front</string>
+    <string name="back">Back</string>
+    <string name="hash">Hash</string>
+    <string name="sideline">Sideline</string>
+    <string name="next">Next</string>
+    <string name="review">Review</string>
+    <string name="counts">Counts</string>
+    <string name="find_midset">Find Midset</string>
+    <string name="find_next">Find Next</string>
+    <string name="find_next_using_end_as_start">Find Next Using End</string>
+
+    <!-- Strings related to Settings -->
+
+    <string-array name="pref_field_type">
+        <item>High School</item>
+        <item>NCAA / College</item>
+        <item>Pro</item>
+    </string-array>
+
+    <string-array name="pref_field_type_values">
+        <item>1</item>
+        <item>0</item>
+        <item>-1</item>
+    </string-array>
+
+    <string-array name="pref_hash_type">
+        <item>Front / Back</item>
+        <item>Home / Visitor</item>
+    </string-array>
+
+    <string-array name="pref_hash_type_values">
+        <item>1</item>
+        <item>0</item>
+    </string-array>
+
+    <string-array name="pref_side_type">
+        <item>Side 1 / Side 2</item>
+        <item>Left / Right</item>
+    </string-array>
+
+    <string-array name="pref_side_type_values">
+        <item>1</item>
+        <item>0</item>
+    </string-array>
+
+    <string-array name="pref_specificity">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+    </string-array>
+
+    <string-array name="pref_specificity_values">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+    </string-array>
+</resources>
