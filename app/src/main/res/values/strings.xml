@@ -21,19 +21,19 @@
     <string name="find_midset">Find Midset</string>
     <string name="find_next">Find Next</string>
     <string name="find_next_using_end_as_start">Find Next Using End</string>
+    <string name="result">Result</string>
+    <string name="initial_set">Initial Set</string>
 
     <!-- Strings related to Settings -->
 
     <string-array name="pref_field_type">
         <item>High School</item>
         <item>NCAA / College</item>
-        <item>Pro</item>
     </string-array>
 
     <string-array name="pref_field_type_values">
         <item>1</item>
         <item>0</item>
-        <item>-1</item>
     </string-array>
 
     <string-array name="pref_hash_type">

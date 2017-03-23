@@ -7,12 +7,26 @@
     tools:context=".StartFragment">
 
     <TextView
-        android:id="@+id/textLeftToRight"
+        android:id="@+id/textInitialSet"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
+        android:layout_centerInParent="false"
+        android:text="@string/initial_set"
+        android:textAlignment="center"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        android:typeface="monospace" />
+
+    <TextView
+        android:id="@+id/textLeftToRight"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/textInitialSet"
         android:layout_centerInParent="false"
         android:text="@string/left_to_right"
         android:textAlignment="center"

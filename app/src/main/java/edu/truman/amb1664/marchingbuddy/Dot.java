@@ -7,35 +7,29 @@ import java.text.DecimalFormat;
  */
 
 public class Dot {
-    // Stock NCAA Stuff
-    private static double NCAA_FH = -10.0;
-    private static double NCAA_BH = 10.0;
-
-    // High School
-    private static double HS_FH = -14.0;
-    private static double HS_BH = 14.0;
-
+    // Yardline Constants
+    private static final int[] yardlines = {50, 45, 40, 35, 30, 25, 20, 15, 10, 5, 0};
+    // Stepsize Constant -- 8 to 5
+    private static final double STEPS = 8.0;
     // Global Sidelines
     public static double FS = -42.0;
     public static double BS = 42.0;
-
+    // Stock NCAA Stuff
+    private static double NCAA_FH = -10.0;
+    private static double NCAA_BH = 10.0;
+    // High School
+    private static double HS_FH = -14.0;
+    private static double HS_BH = 14.0;
     // Hash Type Constants
     private static String FRONT_HASH = "Front";
     private static String BACK_HASH = "Back";
     private static String HOME_HASH = "Home";
     private static String VISITOR_HASH = "Visitor";
-
     // Side Type Constants
     private static String ONE_SIDE = "Side 1 ";
     private static String TWO_SIDE = "Side 2 ";
     private static String LEFT_SIDE = "Left ";
     private static String RIGHT_SIDE = "Right ";
-
-    // Yardline Constants
-    private static final int[] yardlines = {50, 45, 40, 35, 30, 25, 20, 15, 10, 5, 0};
-
-    // Stepsize Constant -- 8 to 5
-    private static final double STEPS = 8.0;
 
     /**
      * @param arr   array of integers
@@ -64,11 +58,11 @@ public class Dot {
     /**
      * outputFB Description about what outputFB does
      *
-     * @param x          input double representing point on field
+     * @param y          input double representing point on field
      * @param field_type 0 = High School, 1 = NCAA
      * @return formatted String
      */
-    static String outputFB(double x, int field_type, int hash_type) {
+    static String outputFB(double y, int field_type, int hash_type) {
         String output;
         double fh;
         double bh;
@@ -94,39 +88,39 @@ public class Dot {
         }
 
         // Middle of the field.
-        if (x == 0) {
+        if (y == 0) {
             output = -fh + " behind " + front + " Hash";
             // return output;
         }
         // Front half of the field.
-        else if (x < 0) {
-            if (x > fh)
-                output = (-fh + x) + " behind " + front + " Hash";
-            else if (x == fh)
+        else if (y < 0) {
+            if (y > fh)
+                output = (-fh + y) + " behind " + front + " Hash";
+            else if (y == fh)
                 output = "On " + front + " Hash";
-            else if (x < fh && x > (FS - fh))
-                output = (fh + -x) + " in front of " + front + " Hash";
-            else if (x > FS)
-                output = (-FS + x) + " behind " + front + " Sideline";
-            else if (x == FS)
+            else if (y < fh && y > (FS - fh))
+                output = (fh + -y) + " in front of " + front + " Hash";
+            else if (y > FS)
+                output = (-FS + y) + " behind " + front + " Sideline";
+            else if (y == FS)
                 output = "On " + front + " Sideline";
             else // -FS + x
-                output = -(x - FS) + " in front of " + front + " Sideline";
+                output = -(y - FS) + " in front of " + front + " Sideline";
         }
         // Back half of the field.
         else {
-            if (x < bh)
-                output = (bh - x) + " in front of " + back + " Hash";
-            else if (x == bh)
+            if (y < bh)
+                output = (bh - y) + " in front of " + back + " Hash";
+            else if (y == bh)
                 output = "On " + back + " Hash";
-            else if (x > bh && x < (BS - bh))
-                output = (x - bh) + " behind " + back + " Hash";
-            else if (x < BS)
-                output = (BS - x) + " in front of " + back + " Sideline";
-            else if (x == BS)
+            else if (y > bh && y < (BS - bh))
+                output = (y - bh) + " behind " + back + " Hash";
+            else if (y < BS)
+                output = (BS - y) + " in front of " + back + " Sideline";
+            else if (y == BS)
                 output = "On " + back + " Sideline";
             else
-                output = (x - BS) + " behind " + back + " Sideline";
+                output = (y - BS) + " behind " + back + " Sideline";
         }
 
         return output;
@@ -231,11 +225,11 @@ public class Dot {
     /**
      * @param OBF        0-On, 1-Front, 2-Behind
      * @param HS         0-FS, 1-FH, 2-BH, 3-BS
-     * @param x          steps
+     * @param y          steps
      * @param field_type 0 = High School, 1 = NCAA
      * @return double with a dingus!
      */
-    static double inputFB(double x, int OBF, int HS, int field_type) {
+    static double inputFB(double y, int OBF, int HS, int field_type) {
         double result = 0;
         double fh;
         double bh;
@@ -253,36 +247,36 @@ public class Dot {
                 if (OBF == 0)
                     result = FS;
                 else if (OBF == 1)
-                    result = FS - x;
+                    result = FS - y;
                 else
-                    result = FS + x;
+                    result = FS + y;
                 break;
             // FH
             case 1:
                 if (OBF == 0)
                     result = fh;
                 else if (OBF == 1)
-                    result = fh - x;
+                    result = fh - y;
                 else
-                    result = fh + x;
+                    result = fh + y;
                 break;
             // BH
             case 2:
                 if (OBF == 0)
                     result = bh;
                 else if (OBF == 1)
-                    result = bh - x;
+                    result = bh - y;
                 else
-                    result = bh + x;
+                    result = bh + y;
                 break;
             // BS
             case 3:
                 if (OBF == 0)
                     result = BS;
                 else if (OBF == 1)
-                    result = BS - x;
+                    result = BS - y;
                 else
-                    result = BS + x;
+                    result = BS + y;
                 break;
         }
         return result;
