@@ -51,10 +51,6 @@ class Midset {
         return k;
     }
 
-    /**
-     * @param value
-     * @return
-     */
     private static double findYardline(int value) {
         return getArrayIndex(Midset.yardlines, value) * 8;
     }
@@ -226,14 +222,14 @@ class Midset {
                     result = findYardline(yardline) + steps;
                 break;
         }
-        System.out.println(result);
+        //System.out.println(result);
         return result;
     }
 
     /**
+     * @param y          steps
      * @param OBF        0-On, 1-Front, 2-Behind
      * @param HS         0-FS, 1-FH, 2-BH, 3-BS
-     * @param y          steps
      * @param field_type 0 = High School, 1 = NCAA
      * @return double with a dingus!
      */
@@ -287,15 +283,15 @@ class Midset {
                     result = BS + y;
                 break;
         }
-        System.out.println(result);
+        //System.out.println(result);
         return result;
     }
 
     private static double distance(MarchingDot start, MarchingDot end) {
-        double startX = Math.abs(start.getLeftToRight());
-        double startY = Math.abs(start.getFrontToBack());
-        double endX = Math.abs(end.getLeftToRight());
-        double endY = Math.abs(end.getFrontToBack());
+        double startX = start.getLeftToRight();
+        double startY = start.getFrontToBack();
+        double endX = end.getLeftToRight();
+        double endY = end.getFrontToBack();
         return Math.sqrt(Math.pow((endX - startX), 2) + Math.pow(endY - startY, 2));
     }
 
@@ -303,7 +299,7 @@ class Midset {
         String output;
         output = "Start:\n" +
                 outputLR(start.getLeftToRight(), side_type) + "\n" +
-                outputFB(start.getFrontToBack(), field_type, hash_type) + "\n" +
+                outputFB(start.getFrontToBack(), field_type, hash_type) + "\n\n" +
                 "End:\n" +
                 outputLR(end.getLeftToRight(), side_type) + "\n" +
                 outputFB(end.getFrontToBack(), field_type, hash_type);
@@ -318,8 +314,10 @@ class Midset {
         double lr = (start.getLeftToRight() + end.getLeftToRight()) / 2;
 
         double distance = distance(start, end);
+        //System.out.println(distance);
 
         double stepSizeMultiplier = distance / counts;
+        //System.out.println(stepSizeMultiplier);
         double stepsize = STEPS / stepSizeMultiplier;
 
         switch (specificity) {
@@ -349,13 +347,13 @@ class Midset {
 
         output = "Start:\n" +
                 outputLR(start.getLeftToRight(), side_type) + "\n" +
-                outputFB(start.getFrontToBack(), field_type, hash_type) + "\n" +
+                outputFB(start.getFrontToBack(), field_type, hash_type) + "\n\n" +
                 "End:\n" +
                 outputLR(end.getLeftToRight(), side_type) + "\n" +
-                outputFB(end.getFrontToBack(), field_type, hash_type) + "\n" +
+                outputFB(end.getFrontToBack(), field_type, hash_type) + "\n\n" +
                 "Midset:\n" +
                 outputLR(lr, side_type) + "\n" +
-                outputFB(fb, field_type, hash_type) + "\n" +
+                outputFB(fb, field_type, hash_type) + "\n\n" +
                 "Stepsize:\n" +
                 stepsize + " to 5";
 
