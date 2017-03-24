@@ -1,5 +1,7 @@
 <resources>
 
-    <style name="MarchingBuddyTheme" parent="Theme.AppCompat" />
+    <style name="MarchingBuddyTheme" parent="Theme.AppCompat">
+        <item name="colorAccent">@color/green_accent_marchingbuddy</item>
+    </style>
 
 </resources>
