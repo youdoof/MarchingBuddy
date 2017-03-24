@@ -3,6 +3,5 @@
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
-    <color name="accent_cav_green">#009926</color>
-    <color name="accent_material_dark">#009926</color>
+    <color name="green_accent_marchingbuddy">#009926</color>
 </resources>

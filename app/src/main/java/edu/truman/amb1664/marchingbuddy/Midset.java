@@ -98,7 +98,7 @@ class Midset {
                 output = (-fh + y) + " behind " + front + " Hash";
             else if (y == fh)
                 output = "On " + front + " Hash";
-            else if (y < fh && y > (FS - fh))
+            else if (y < fh && y > ((FS + fh) / 2))
                 output = (fh + -y) + " in front of " + front + " Hash";
             else if (y > FS)
                 output = (-FS + y) + " behind " + front + " Sideline";
@@ -113,7 +113,7 @@ class Midset {
                 output = (bh - y) + " in front of " + back + " Hash";
             else if (y == bh)
                 output = "On " + back + " Hash";
-            else if (y > bh && y < (BS - bh))
+            else if (y > bh && y < ((BS + bh) / 2))
                 output = (y - bh) + " behind " + back + " Hash";
             else if (y < BS)
                 output = (BS - y) + " in front of " + back + " Sideline";
@@ -309,16 +309,20 @@ class Midset {
     static String getMidsetInfo(MarchingDot start, MarchingDot end, int counts, int field_type, int hash_type, int side_type, int specificity) {
         String output;
         DecimalFormat decimalFormat;
+        double stepsize;
 
         double fb = (start.getFrontToBack() + end.getFrontToBack()) / 2;
         double lr = (start.getLeftToRight() + end.getLeftToRight()) / 2;
 
         double distance = distance(start, end);
-        //System.out.println(distance);
 
         double stepSizeMultiplier = distance / counts;
-        //System.out.println(stepSizeMultiplier);
-        double stepsize = STEPS / stepSizeMultiplier;
+        if (stepSizeMultiplier == 0.0) {
+            stepsize = 0.0;
+        } else {
+            stepsize = STEPS / stepSizeMultiplier;
+        }
+
 
         switch (specificity) {
             case 0:
@@ -359,33 +363,4 @@ class Midset {
 
         return output;
     }
-
-/*
-    private static String midset(double x1, double y1, double x2, double y2, int field_type, int hash_type, int side_type) {
-        String out;
-        double fb = (y1 + y2) / 2;
-        double lr = (x1 + x2) / 2;
-        out = "Start: " + outputLR(x1, side_type) + " || " + outputFB(y1, field_type, hash_type) + "\n" +
-                "End: " + outputLR(x2, side_type) + " || " + outputFB(y2, field_type, hash_type) + "\n" +
-                "Midset: " + outputLR(lr, side_type) + " || " + outputFB(fb, field_type, hash_type);
-        return out;
-    }
-
-    static String compute(double x1, double y1, double x2, double y2, int counts, int field_type, int hash_type, int side_type) {
-        String out1;
-        String out2;
-        DecimalFormat df = new DecimalFormat("#.###"); // Format how specific stepsize is
-        out1 = midset(x1, y1, x2, y2, field_type, hash_type, side_type);
-        x1 = Math.abs(x1);
-        y1 = Math.abs(y1);
-        x2 = Math.abs(x2);
-        y2 = Math.abs(y2);
-        double distance = Math.sqrt(Math.pow((x2 - x1), 2) + Math.pow((y2 - y1), 2));
-        double stepsizemultiplier = distance / counts;
-        double stepsize = STEPS / stepsizemultiplier;
-        stepsize = Double.valueOf(df.format(stepsize)); // Currently to 3 decimal places
-        out2 = out1 + "\n" + "Stepsize: " + stepsize + " to 5";
-        return out2;
-    }
-*/
 }
