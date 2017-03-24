@@ -7,12 +7,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.TextView;
 
 /**
  * Created by Brogan on 3/21/2017.
  */
 
 public class ResultFragment extends Fragment implements View.OnClickListener {
+    TextView display;
 
     @Nullable
     @Override
@@ -20,6 +22,17 @@ public class ResultFragment extends Fragment implements View.OnClickListener {
         View v = inflater.inflate(R.layout.result_fragment, container, false);
         Button b = (Button) v.findViewById(R.id.buttonFindNext);
         Button b2 = (Button) v.findViewById(R.id.buttonUseEnd);
+        display = (TextView) v.findViewById(R.id.textDisplay);
+        int fieldType = ((MainActivity) getActivity()).readFieldType();
+        int hashType = ((MainActivity) getActivity()).readHashType();
+        int sideType = ((MainActivity) getActivity()).readSideType();
+        int specificity = ((MainActivity) getActivity()).readSpecificity();
+        MarchingDot start = ((MainActivity) getActivity()).getStart_dot();
+        MarchingDot end = ((MainActivity) getActivity()).getEnd_dot();
+        int counts = ((MainActivity) getActivity()).getCounts();
+
+        display.setText(Midset.getMidsetInfo(start, end, counts, fieldType, hashType, sideType, specificity));
+
         b.setOnClickListener(this);
         b2.setOnClickListener(this);
         return v;
@@ -29,10 +42,11 @@ public class ResultFragment extends Fragment implements View.OnClickListener {
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.buttonFindNext:
-                ((MainActivity)getActivity()).replaceFragment(1);
+                ((MainActivity) getActivity()).replaceFragment(1);
                 break;
             case R.id.buttonUseEnd:
-                ((MainActivity)getActivity()).replaceFragment(5);
+                ((MainActivity) getActivity()).setStart_dot(((MainActivity) getActivity()).getEnd_dot());
+                ((MainActivity) getActivity()).replaceFragment(5);
                 break;
             default:
                 break;

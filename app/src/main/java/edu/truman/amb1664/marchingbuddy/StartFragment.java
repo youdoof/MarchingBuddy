@@ -10,17 +10,27 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioButton;
 
-import static edu.truman.amb1664.marchingbuddy.Dot.BS;
+import static edu.truman.amb1664.marchingbuddy.Midset.getBS;
+import static edu.truman.amb1664.marchingbuddy.Midset.inputFB;
+import static edu.truman.amb1664.marchingbuddy.Midset.inputLR;
 
 /**
  * Created by Brogan on 3/21/2017.
  */
 
 public class StartFragment extends Fragment implements View.OnClickListener {
+    // Left to Right variables
+    double steps1;
+    int IO1;
+    int side1;
+    int yardline1;
+    // Front to Back variables
+    double y1;
+    int OBF1;
+    int HS1;
     private EditText yardline;
     private EditText stepsfb;
     private EditText stepslr;
-
     private RadioButton s1;
     private RadioButton s2;
     private RadioButton on;
@@ -33,17 +43,6 @@ public class StartFragment extends Fragment implements View.OnClickListener {
     private RadioButton back;
     private RadioButton hash;
     private RadioButton sideline;
-
-    // Left to Right variables
-    private double steps1;
-    private int IO1;
-    private int side1;
-    private int yardline1;
-
-    // Front to Back variables
-    private double x1;
-    private int OBF1;
-    private int HS1;
 
     @Nullable
     @Override
@@ -66,6 +65,18 @@ public class StartFragment extends Fragment implements View.OnClickListener {
         hash = (RadioButton) v.findViewById(R.id.radioHash);
         sideline = (RadioButton) v.findViewById(R.id.radioSideline);
 
+        int hashType = ((MainActivity) getActivity()).readHashType();
+        int sideType = ((MainActivity) getActivity()).readSideType();
+
+        if (hashType == 1) {
+            front.setText(getString(R.string.home));
+            back.setText(getString(R.string.visitor));
+        }
+        if (sideType == 1) {
+            s1.setText(getString(R.string.left));
+            s2.setText(getString(R.string.right));
+        }
+
         Button b = (Button) v.findViewById(R.id.buttonPart1);
 
         b.setOnClickListener(this);
@@ -75,7 +86,7 @@ public class StartFragment extends Fragment implements View.OnClickListener {
 
     @Override
     public void onClick(View view) {
-        ((MainActivity) getActivity()).readFieldType();
+        int fieldType = ((MainActivity) getActivity()).readFieldType();
         boolean cont = true;
         ////////////////////
         // Left to Right //
@@ -129,7 +140,7 @@ public class StartFragment extends Fragment implements View.OnClickListener {
         // Front to Back //
         ///////////////////
 
-        // x1
+        // y1
         //cont = getX(x2, cont);
         String tempstepfb = stepsfb.getText().toString();
         final double stepfb = !tempstepfb.equals("") ? Double.parseDouble(tempstepfb) : -1;
@@ -137,7 +148,7 @@ public class StartFragment extends Fragment implements View.OnClickListener {
             stepsfb.setError("Must be > 0!");
             cont = false;
         } else
-            x1 = stepfb;
+            y1 = stepfb;
 
         // OBF1
         //cont = getOBF(OBF2, cont);
@@ -168,6 +179,8 @@ public class StartFragment extends Fragment implements View.OnClickListener {
         }
 
         if (cont) {
+            MarchingDot initial = new MarchingDot(inputLR(steps1, IO1, side1, yardline1), inputFB(y1, OBF1, HS1, fieldType));
+            ((MainActivity) getActivity()).setStart_dot(initial);
             ((MainActivity) getActivity()).replaceFragment(2);
         }
 
@@ -179,7 +192,7 @@ public class StartFragment extends Fragment implements View.OnClickListener {
     }
 
     private boolean isValidFBStep(double x) {
-        return onhash.isChecked() || x > 0 && x < BS;
+        return onhash.isChecked() || x > 0 && x < getBS();
     }
 
     private boolean isValidLRYardline(int x) {

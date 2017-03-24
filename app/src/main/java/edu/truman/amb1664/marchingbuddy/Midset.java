@@ -6,14 +6,14 @@ import java.text.DecimalFormat;
  * Created by Brogan on 3/21/2017.
  */
 
-public class Dot {
+class Midset {
     // Yardline Constants
     private static final int[] yardlines = {50, 45, 40, 35, 30, 25, 20, 15, 10, 5, 0};
     // Stepsize Constant -- 8 to 5
     private static final double STEPS = 8.0;
     // Global Sidelines
-    public static double FS = -42.0;
-    public static double BS = 42.0;
+    private static double FS = -42.0;
+    private static double BS = 42.0;
     // Stock NCAA Stuff
     private static double NCAA_FH = -10.0;
     private static double NCAA_BH = 10.0;
@@ -30,6 +30,10 @@ public class Dot {
     private static String TWO_SIDE = "Side 2 ";
     private static String LEFT_SIDE = "Left ";
     private static String RIGHT_SIDE = "Right ";
+
+    static double getBS() {
+        return BS;
+    }
 
     /**
      * @param arr   array of integers
@@ -52,7 +56,7 @@ public class Dot {
      * @return
      */
     private static double findYardline(int value) {
-        return getArrayIndex(Dot.yardlines, value) * 8;
+        return getArrayIndex(Midset.yardlines, value) * 8;
     }
 
     /**
@@ -62,7 +66,7 @@ public class Dot {
      * @param field_type 0 = High School, 1 = NCAA
      * @return formatted String
      */
-    static String outputFB(double y, int field_type, int hash_type) {
+    private static String outputFB(double y, int field_type, int hash_type) {
         String output;
         double fh;
         double bh;
@@ -131,7 +135,7 @@ public class Dot {
      * @param side_type 0 = Side 1/Side 2, 1 = Left/Right
      * @return Formatted String to be printed to console
      */
-    static String outputLR(double x, int side_type) {
+    private static String outputLR(double x, int side_type) {
         String output;
         String left;
         String right;
@@ -192,7 +196,10 @@ public class Dot {
         switch (IO) {
             // On Yardline
             case 0:
-                result = findYardline(yardline);
+                if (side == 0)
+                    result = -findYardline(yardline);
+                else
+                    result = findYardline(yardline);
                 break;
             // Inside Yardline
             case 1:
@@ -219,6 +226,7 @@ public class Dot {
                     result = findYardline(yardline) + steps;
                 break;
         }
+        System.out.println(result);
         return result;
     }
 
@@ -279,9 +287,82 @@ public class Dot {
                     result = BS + y;
                 break;
         }
+        System.out.println(result);
         return result;
     }
 
+    private static double distance(MarchingDot start, MarchingDot end) {
+        double startX = Math.abs(start.getLeftToRight());
+        double startY = Math.abs(start.getFrontToBack());
+        double endX = Math.abs(end.getLeftToRight());
+        double endY = Math.abs(end.getFrontToBack());
+        return Math.sqrt(Math.pow((endX - startX), 2) + Math.pow(endY - startY, 2));
+    }
+
+    static String review(MarchingDot start, MarchingDot end, int field_type, int hash_type, int side_type) {
+        String output;
+        output = "Start:\n" +
+                outputLR(start.getLeftToRight(), side_type) + "\n" +
+                outputFB(start.getFrontToBack(), field_type, hash_type) + "\n" +
+                "End:\n" +
+                outputLR(end.getLeftToRight(), side_type) + "\n" +
+                outputFB(end.getFrontToBack(), field_type, hash_type);
+        return output;
+    }
+
+    static String getMidsetInfo(MarchingDot start, MarchingDot end, int counts, int field_type, int hash_type, int side_type, int specificity) {
+        String output;
+        DecimalFormat decimalFormat;
+
+        double fb = (start.getFrontToBack() + end.getFrontToBack()) / 2;
+        double lr = (start.getLeftToRight() + end.getLeftToRight()) / 2;
+
+        double distance = distance(start, end);
+
+        double stepSizeMultiplier = distance / counts;
+        double stepsize = STEPS / stepSizeMultiplier;
+
+        switch (specificity) {
+            case 0:
+                break;
+            case 1:
+                decimalFormat = new DecimalFormat("#.#");
+                stepsize = Double.valueOf(decimalFormat.format(stepsize));
+                fb = Double.valueOf(decimalFormat.format(fb));
+                lr = Double.valueOf(decimalFormat.format(lr));
+                break;
+            case 2:
+                decimalFormat = new DecimalFormat("#.##");
+                stepsize = Double.valueOf(decimalFormat.format(stepsize));
+                fb = Double.valueOf(decimalFormat.format(fb));
+                lr = Double.valueOf(decimalFormat.format(lr));
+                break;
+            case 3:
+                decimalFormat = new DecimalFormat("#.###");
+                stepsize = Double.valueOf(decimalFormat.format(stepsize));
+                fb = Double.valueOf(decimalFormat.format(fb));
+                lr = Double.valueOf(decimalFormat.format(lr));
+                break;
+            default:
+                break;
+        }
+
+        output = "Start:\n" +
+                outputLR(start.getLeftToRight(), side_type) + "\n" +
+                outputFB(start.getFrontToBack(), field_type, hash_type) + "\n" +
+                "End:\n" +
+                outputLR(end.getLeftToRight(), side_type) + "\n" +
+                outputFB(end.getFrontToBack(), field_type, hash_type) + "\n" +
+                "Midset:\n" +
+                outputLR(lr, side_type) + "\n" +
+                outputFB(fb, field_type, hash_type) + "\n" +
+                "Stepsize:\n" +
+                stepsize + " to 5";
+
+        return output;
+    }
+
+/*
     private static String midset(double x1, double y1, double x2, double y2, int field_type, int hash_type, int side_type) {
         String out;
         double fb = (y1 + y2) / 2;
@@ -308,4 +389,5 @@ public class Dot {
         out2 = out1 + "\n" + "Stepsize: " + stepsize + " to 5";
         return out2;
     }
+*/
 }

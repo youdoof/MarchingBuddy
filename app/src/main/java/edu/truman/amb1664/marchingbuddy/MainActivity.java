@@ -9,10 +9,37 @@ import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
     private static final String BACK_STACK_ROOT = "root_fragment";
+    public MarchingDot start_dot;
+    public MarchingDot end_dot;
+    public int counts;
+
+    public MarchingDot getStart_dot() {
+        return start_dot;
+    }
+
+    public void setStart_dot(MarchingDot start_dot) {
+        this.start_dot = start_dot;
+    }
+
+    public MarchingDot getEnd_dot() {
+        return end_dot;
+    }
+
+    public void setEnd_dot(MarchingDot end_dot) {
+        this.end_dot = end_dot;
+    }
+
+    public int getCounts() {
+        return counts;
+    }
+
+    public void setCounts(int counts) {
+        this.counts = counts;
+    }
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,15 +73,32 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    public void readFieldType() {
+    public int readFieldType() {
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
-        String fieldType = preferences.getString("field_type", "Fail");
-        String hashType = preferences.getString("hash_type", "Fail");
-        String sideType = preferences.getString("side_type", "Fail");
+        String fieldType = preferences.getString("field_type", "-1");
+        return Integer.parseInt(fieldType);
+    }
 
-        Toast.makeText(this, fieldType, Toast.LENGTH_LONG).show();
-        Toast.makeText(this, hashType, Toast.LENGTH_LONG).show();
-        Toast.makeText(this, sideType, Toast.LENGTH_LONG).show();
+    public int readHashType() {
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        String hashType = preferences.getString("hash_type", "-1");
+        return Integer.parseInt(hashType);
+    }
+
+    public int readSideType() {
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        String sideType = preferences.getString("side_type", "-1");
+        return Integer.parseInt(sideType);
+    }
+
+    public int readSpecificity() {
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        String specificity = preferences.getString("specificity", "-1");
+        return Integer.parseInt(specificity);
+    }
+
+    public void setReviewText() {
+
     }
 
     public void initializeBackStack(Fragment fragment) {
