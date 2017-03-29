@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <color name="colorPrimary">#3F51B5</color>
-    <color name="colorPrimaryDark">#303F9F</color>
-    <color name="colorAccent">#FF4081</color>
-    <color name="green_accent_marchingbuddy">#009926</color>
-    <color name="accent_material_dark">#80cbc4</color>
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <color name="accent_material_dark" tools:override="true">#80cbc4</color>
+    <color name="primary_material_light" tools:override="true">#4caf50</color>
+    <color name="primary_dark_material_light" tools:override="true">#388e3c</color>
+    <color name="accent_material_light" tools:override="true">#00c853</color>
 </resources>
