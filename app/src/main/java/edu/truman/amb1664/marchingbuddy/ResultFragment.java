@@ -14,7 +14,6 @@ import android.widget.TextView;
  */
 
 public class ResultFragment extends Fragment implements View.OnClickListener {
-    private TextView display;
 
     @Nullable
     @Override
@@ -22,7 +21,7 @@ public class ResultFragment extends Fragment implements View.OnClickListener {
         View v = inflater.inflate(R.layout.result_fragment, container, false);
         Button b = (Button) v.findViewById(R.id.buttonFindNext);
         Button b2 = (Button) v.findViewById(R.id.buttonUseEnd);
-        display = (TextView) v.findViewById(R.id.textDisplay);
+        TextView display = (TextView) v.findViewById(R.id.textDisplay);
         int fieldType = ((MainActivity) getActivity()).readFieldType();
         int hashType = ((MainActivity) getActivity()).readHashType();
         int sideType = ((MainActivity) getActivity()).readSideType();

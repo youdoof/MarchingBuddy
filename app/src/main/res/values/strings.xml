@@ -26,7 +26,9 @@
     <string name="find_next">Find Next</string>
     <string name="find_next_using_end_as_start">Find Next Using End</string>
     <string name="result">Result</string>
-    <string name="initial_set">Initial Set</string>
+    <string name="start_point">Start Point:</string>
+    <string name="end_point">End Point:</string>
+    <string name="settings">Settings</string>
 
     <!-- Strings related to Settings -->
 

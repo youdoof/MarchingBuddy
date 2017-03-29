@@ -21,13 +21,9 @@ import static edu.truman.amb1664.marchingbuddy.Midset.inputLR;
 public class EndFragment extends Fragment implements View.OnClickListener {
     // Left to Right variables
     private double steps1;
-    private int IO1;
-    private int side1;
     private int yardline1;
     // Front to Back variables
     private double y1;
-    private int OBF1;
-    private int HS1;
     private EditText yardline;
     private EditText stepsfb;
     private EditText stepslr;
@@ -104,6 +100,7 @@ public class EndFragment extends Fragment implements View.OnClickListener {
 
         // On or Inside or Outside
         //cont = getIO(IO2, cont);
+        int IO1;
         if (on.isChecked())
             IO1 = 0;
         else if (in.isChecked())
@@ -117,6 +114,7 @@ public class EndFragment extends Fragment implements View.OnClickListener {
 
         // Side 1 or Side 2
         //cont = getSide(side2, cont);
+        int side1;
         if (s1.isChecked())
             side1 = 0;
         else if (s2.isChecked())
@@ -152,6 +150,7 @@ public class EndFragment extends Fragment implements View.OnClickListener {
 
         // OBF1
         //cont = getOBF(OBF2, cont);
+        int OBF1;
         if (onhash.isChecked())
             OBF1 = 0;
         else if (infront.isChecked())
@@ -165,6 +164,7 @@ public class EndFragment extends Fragment implements View.OnClickListener {
 
         // HS1
         //cont = getHS(HS2, cont);
+        int HS1;
         if (front.isChecked() && sideline.isChecked())
             HS1 = 0;
         else if (front.isChecked() && hash.isChecked())

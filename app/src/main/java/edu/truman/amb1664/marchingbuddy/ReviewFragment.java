@@ -17,7 +17,6 @@ import static java.lang.Integer.parseInt;
  */
 
 public class ReviewFragment extends Fragment implements View.OnClickListener {
-    private TextView review;
     private EditText countText;
     private int counts;
 
@@ -25,7 +24,7 @@ public class ReviewFragment extends Fragment implements View.OnClickListener {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.review_fragment, container, false);
-        review = (TextView) v.findViewById(R.id.textPreview);
+        TextView review = (TextView) v.findViewById(R.id.textPreview);
         countText = (EditText) v.findViewById(R.id.editCounts);
         int fieldType = ((MainActivity) getActivity()).readFieldType();
         int hashType = ((MainActivity) getActivity()).readHashType();
