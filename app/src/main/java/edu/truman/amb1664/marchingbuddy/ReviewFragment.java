@@ -17,9 +17,9 @@ import static java.lang.Integer.parseInt;
  */
 
 public class ReviewFragment extends Fragment implements View.OnClickListener {
-    TextView review;
-    EditText countText;
-    int counts;
+    private TextView review;
+    private EditText countText;
+    private int counts;
 
     @Nullable
     @Override
@@ -57,7 +57,7 @@ public class ReviewFragment extends Fragment implements View.OnClickListener {
         }
     }
 
-    boolean isValidCount(int c) {
+    private boolean isValidCount(int c) {
         return c > 0;
     }
 }

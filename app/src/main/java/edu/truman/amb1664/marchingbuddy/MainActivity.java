@@ -12,9 +12,9 @@ import android.view.MenuItem;
 
 public class MainActivity extends AppCompatActivity {
     private static final String BACK_STACK_ROOT = "root_fragment";
-    public MarchingDot start_dot;
-    public MarchingDot end_dot;
-    public int counts;
+    private MarchingDot start_dot;
+    private MarchingDot end_dot;
+    private int counts;
 
     public MarchingDot getStart_dot() {
         return start_dot;
@@ -68,7 +68,7 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public void moveToSettings() {
+    private void moveToSettings() {
         Intent intent = new Intent(this, SettingsActivity.class);
         startActivity(intent);
     }
@@ -97,18 +97,14 @@ public class MainActivity extends AppCompatActivity {
         return Integer.parseInt(specificity);
     }
 
-    public void setReviewText() {
-
-    }
-
-    public void initializeBackStack(Fragment fragment) {
+    private void initializeBackStack(Fragment fragment) {
         FragmentManager fragmentManager = getSupportFragmentManager();
         fragmentManager.popBackStack(BACK_STACK_ROOT, FragmentManager.POP_BACK_STACK_INCLUSIVE);
 
         fragmentManager.beginTransaction().replace(R.id.fragment_container, fragment).addToBackStack(BACK_STACK_ROOT).commit();
     }
 
-    public void addFragmentOnTop(Fragment fragment) {
+    private void addFragmentOnTop(Fragment fragment) {
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, fragment).addToBackStack(null).commit();
     }
 

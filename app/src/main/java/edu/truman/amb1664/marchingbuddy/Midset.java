@@ -9,41 +9,40 @@ import java.text.DecimalFormat;
 class Midset {
     // Yardline Constants
     private static final int[] yardlines = {50, 45, 40, 35, 30, 25, 20, 15, 10, 5, 0};
+    // Hash Type Constants
+    private static final String FRONT_HASH = "Front";
+    private static final String BACK_HASH = "Back";
+    private static final String HOME_HASH = "Home";
+    private static final String VISITOR_HASH = "Visitor";
+    // Side Type Constants
+    private static final String ONE_SIDE = "Side 1 ";
+    private static final String TWO_SIDE = "Side 2 ";
+    private static final String LEFT_SIDE = "Left ";
+    private static final String RIGHT_SIDE = "Right ";
     // Stepsize Constant -- 8 to 5
     private static final double STEPS = 8.0;
     // Global Sidelines
-    private static double FS = -42.0;
-    private static double BS = 42.0;
+    private static final double FS = -42.0;
+    private static final double BS = 42.0;
     // Stock NCAA Stuff
-    private static double NCAA_FH = -10.0;
-    private static double NCAA_BH = 10.0;
+    private static final double NCAA_FH = -10.0;
+    private static final double NCAA_BH = 10.0;
     // High School
-    private static double HS_FH = -14.0;
-    private static double HS_BH = 14.0;
-    // Hash Type Constants
-    private static String FRONT_HASH = "Front";
-    private static String BACK_HASH = "Back";
-    private static String HOME_HASH = "Home";
-    private static String VISITOR_HASH = "Visitor";
-    // Side Type Constants
-    private static String ONE_SIDE = "Side 1 ";
-    private static String TWO_SIDE = "Side 2 ";
-    private static String LEFT_SIDE = "Left ";
-    private static String RIGHT_SIDE = "Right ";
+    private static final double HS_FH = -14.0;
+    private static final double HS_BH = 14.0;
 
     static double getBS() {
         return BS;
     }
 
     /**
-     * @param arr   array of integers
      * @param value the value of the index you want
      * @return index of the array
      */
-    private static int getArrayIndex(int[] arr, int value) {
+    private static int getArrayIndex(int value) {
         int k = 0;
-        for (int i = 0; i < arr.length; i++) {
-            if (arr[i] == value) {
+        for (int i = 0; i < Midset.yardlines.length; i++) {
+            if (Midset.yardlines[i] == value) {
                 k = i;
                 break;
             }
@@ -52,7 +51,7 @@ class Midset {
     }
 
     private static double findYardline(int value) {
-        return getArrayIndex(Midset.yardlines, value) * 8;
+        return getArrayIndex(value) * 8;
     }
 
     /**

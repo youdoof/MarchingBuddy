@@ -5,8 +5,8 @@ package edu.truman.amb1664.marchingbuddy;
  */
 
 class MarchingDot {
-    private double leftToRight;
-    private double frontToBack;
+    private final double leftToRight;
+    private final double frontToBack;
 
     MarchingDot(double leftToRight, double frontToBack) {
         this.leftToRight = leftToRight;

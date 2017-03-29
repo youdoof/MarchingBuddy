@@ -20,14 +20,14 @@ import static edu.truman.amb1664.marchingbuddy.Midset.inputLR;
 
 public class StartFragment extends Fragment implements View.OnClickListener {
     // Left to Right variables
-    double steps1;
-    int IO1;
-    int side1;
-    int yardline1;
+    private double steps1;
+    private int IO1;
+    private int side1;
+    private int yardline1;
     // Front to Back variables
-    double y1;
-    int OBF1;
-    int HS1;
+    private double y1;
+    private int OBF1;
+    private int HS1;
     private EditText yardline;
     private EditText stepsfb;
     private EditText stepslr;

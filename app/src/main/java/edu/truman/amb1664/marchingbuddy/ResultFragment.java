@@ -14,7 +14,7 @@ import android.widget.TextView;
  */
 
 public class ResultFragment extends Fragment implements View.OnClickListener {
-    TextView display;
+    private TextView display;
 
     @Nullable
     @Override
