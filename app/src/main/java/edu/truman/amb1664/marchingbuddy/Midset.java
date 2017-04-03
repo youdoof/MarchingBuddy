@@ -3,11 +3,15 @@ package edu.truman.amb1664.marchingbuddy;
 import java.text.DecimalFormat;
 
 /**
- * Created by Brogan on 3/21/2017.
+ * Midset is a helper class that has the methods to
+ * compute the midset and step size for each set.
+ *
+ * @author Andrew Brogan
+ * @since 12/18/16
  */
 class Midset {
     // Yardline Constants
-    private static final int[] yardlines = {50, 45, 40, 35, 30, 25, 20, 15, 10, 5, 0};
+    private static final int[] YARDLINES = {50, 45, 40, 35, 30, 25, 20, 15, 10, 5, 0};
     // Hash Type Constants
     private static final String FRONT_HASH = "Front";
     private static final String BACK_HASH = "Back";
@@ -35,13 +39,15 @@ class Midset {
     }
 
     /**
+     * This method gets the array index of the value you input.
+     *
      * @param value the value of the index you want
      * @return index of the array
      */
     private static int getArrayIndex(int value) {
         int k = 0;
-        for (int i = 0; i < Midset.yardlines.length; i++) {
-            if (Midset.yardlines[i] == value) {
+        for (int i = 0; i < Midset.YARDLINES.length; i++) {
+            if (Midset.YARDLINES[i] == value) {
                 k = i;
                 break;
             }
@@ -50,15 +56,20 @@ class Midset {
     }
 
     /**
-     * @param value index of the array you want to find
-     * @return integer representing the yardline requested
+     * This method takes the yardline given and returns the representation of that yardline
+     * in the internal coordinate plane, which is where all midsets are calculated.
+     *
+     * @param value yardline you want to be turned into coordinate
+     * @return double representing the yardline in a coordinate plane
      */
     private static double findYardline(int value) {
         return getArrayIndex(value) * 8;
     }
 
     /**
-     * outputFB Description about what outputFB does
+     * outputFB Takes a double y and two settings types and translates the double y
+     * into the representation format understood by human marchers, using terminology
+     * set by the settings types.
      *
      * @param y          input double representing point on field
      * @param field_type 0 = High School, 1 = NCAA
@@ -130,6 +141,10 @@ class Midset {
     }
 
     /**
+     * outputLR Takes a double x and one setting type and translates the double x
+     * into the representation format understood by human marchers, using terminology
+     * set by the setting type.
+     *
      * @param x         double to be converted to text
      * @param side_type 0 = Side 1/Side 2, 1 = Left/Right
      * @return Formatted String to be printed to console
@@ -158,12 +173,12 @@ class Midset {
             int yardline = (int) (x / 8);
             double step = x % 8;
             if (step == 0.0) {
-                output = "On " + right + yardlines[yardline];
+                output = "On " + right + YARDLINES[yardline];
             } else if (step <= 4.0) {
-                output = step + " steps Outside " + right + yardlines[yardline];
+                output = step + " steps Outside " + right + YARDLINES[yardline];
             } else {
                 step = 8 - step;
-                output = step + " steps Inside " + right + yardlines[yardline + 1];
+                output = step + " steps Inside " + right + YARDLINES[yardline + 1];
             }
         }
         // Side 1, Left Side
@@ -171,18 +186,21 @@ class Midset {
             int yardline = (int) (x / 8);
             double step = x % 8;
             if (step == 0.0) {
-                output = "On " + left + yardlines[-yardline];
+                output = "On " + left + YARDLINES[-yardline];
             } else if (step >= -4.0) {
-                output = -step + " steps Outside " + left + yardlines[-yardline];
+                output = -step + " steps Outside " + left + YARDLINES[-yardline];
             } else {
                 step = 8 + step;
-                output = step + " steps Inside " + left + yardlines[-yardline + 1];
+                output = step + " steps Inside " + left + YARDLINES[-yardline + 1];
             }
         }
         return output;
     }
 
     /**
+     * inputLR translates the input received from the GUI and translates it into a single
+     * double value that the midset system understands. (Left to Right)
+     *
      * @param yardline actual integer value of the yardline
      * @param steps    steps inside or outside
      * @param side     0-S1, 1-S2
@@ -191,7 +209,7 @@ class Midset {
      */
     static double inputLR(double steps, int IO, int side, int yardline) {
         double result = 0;
-        // getYardline(yardlines, yardline);
+        // getYardline(YARDLINES, yardline);
         switch (IO) {
             // On Yardline
             case 0:
@@ -230,6 +248,9 @@ class Midset {
     }
 
     /**
+     * inputFB translates the input received from the GUI and translates it into a single
+     * double value that the midset system understands. (Front to Back)
+     *
      * @param y          steps
      * @param OBF        0-On, 1-Front, 2-Behind
      * @param HS         0-FS, 1-FH, 2-BH, 3-BS
@@ -291,6 +312,9 @@ class Midset {
     }
 
     /**
+     * This method computes the distance between to MarchingDot objects,
+     * using the distance formula for coordinates.
+     *
      * @param start initial MarchingDot
      * @param end   final MarchingDot
      * @return distance between the two MarchingDots
@@ -304,6 +328,9 @@ class Midset {
     }
 
     /**
+     * review takes the input start and end dots and produces a formatted string
+     * to display the data that was entered by the user
+     *
      * @param start      initial MarchingDot
      * @param end        final MarchingDot
      * @param field_type 0 = High School, 1 = NCAA
@@ -323,6 +350,10 @@ class Midset {
     }
 
     /**
+     * getMidsetInfo creates a formatted string to display the
+     * start set, end set, mid set, and step size for the move
+     * given by the user.
+     *
      * @param start       initial MarchingDot
      * @param end         final MarchingDot
      * @param counts      number of counts to get from start to end

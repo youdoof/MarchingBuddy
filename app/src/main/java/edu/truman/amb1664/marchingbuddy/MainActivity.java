@@ -10,6 +10,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 
+/**
+ * @author Andrew Brogan
+ * @since 3/21/17
+ */
 public class MainActivity extends AppCompatActivity {
     private static final String BACK_STACK_ROOT = "root_fragment";
     private MarchingDot start_dot;

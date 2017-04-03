@@ -13,7 +13,8 @@ import android.widget.TextView;
 import static java.lang.Integer.parseInt;
 
 /**
- * Created by Brogan on 3/21/2017.
+ * @author Andrew Brogan
+ * @since 3/21/2017
  */
 
 public class ReviewFragment extends Fragment implements View.OnClickListener {

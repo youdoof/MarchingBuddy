@@ -15,7 +15,8 @@ import static edu.truman.amb1664.marchingbuddy.Midset.inputFB;
 import static edu.truman.amb1664.marchingbuddy.Midset.inputLR;
 
 /**
- * Created by Brogan on 3/21/2017.
+ * @author Andrew Brogan
+ * @since 3/21/2017
  */
 
 public class StartFragment extends Fragment implements View.OnClickListener {

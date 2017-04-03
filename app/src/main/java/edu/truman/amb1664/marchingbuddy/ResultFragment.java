@@ -10,7 +10,8 @@ import android.widget.Button;
 import android.widget.TextView;
 
 /**
- * Created by Brogan on 3/21/2017.
+ * @author Andrew Brogan
+ * @since 3/21/2017
  */
 
 public class ResultFragment extends Fragment implements View.OnClickListener {

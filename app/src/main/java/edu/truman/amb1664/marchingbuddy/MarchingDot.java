@@ -1,7 +1,12 @@
 package edu.truman.amb1664.marchingbuddy;
 
 /**
- * Created by Brogan on 3/23/2017.
+ * MarchingDot is what the system uses to hold the information
+ * contained within a dot. The Left to Right coordinate x, and
+ * the Front to Back coordinate y.
+ *
+ * @author Andrew Brogan
+ * @since 3/23/2017
  */
 
 class MarchingDot {
