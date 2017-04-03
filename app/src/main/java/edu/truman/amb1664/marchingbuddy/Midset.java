@@ -5,7 +5,6 @@ import java.text.DecimalFormat;
 /**
  * Created by Brogan on 3/21/2017.
  */
-
 class Midset {
     // Yardline Constants
     private static final int[] yardlines = {50, 45, 40, 35, 30, 25, 20, 15, 10, 5, 0};
@@ -50,6 +49,10 @@ class Midset {
         return k;
     }
 
+    /**
+     * @param value index of the array you want to find
+     * @return integer representing the yardline requested
+     */
     private static double findYardline(int value) {
         return getArrayIndex(value) * 8;
     }
@@ -59,6 +62,7 @@ class Midset {
      *
      * @param y          input double representing point on field
      * @param field_type 0 = High School, 1 = NCAA
+     * @param hash_type  0 = Front/Back, 1 = Home/Visitor
      * @return formatted String
      */
     private static String outputFB(double y, int field_type, int hash_type) {
@@ -183,7 +187,7 @@ class Midset {
      * @param steps    steps inside or outside
      * @param side     0-S1, 1-S2
      * @param IO       0-On, 1-Inside, 2-Outside
-     * @return double with a dingus!
+     * @return double equivalent of input left to right coordinate
      */
     static double inputLR(double steps, int IO, int side, int yardline) {
         double result = 0;
@@ -230,7 +234,7 @@ class Midset {
      * @param OBF        0-On, 1-Front, 2-Behind
      * @param HS         0-FS, 1-FH, 2-BH, 3-BS
      * @param field_type 0 = High School, 1 = NCAA
-     * @return double with a dingus!
+     * @return double equivalent of input front to back coordinate
      */
     static double inputFB(double y, int OBF, int HS, int field_type) {
         double result = 0;
@@ -286,6 +290,11 @@ class Midset {
         return result;
     }
 
+    /**
+     * @param start initial MarchingDot
+     * @param end   final MarchingDot
+     * @return distance between the two MarchingDots
+     */
     private static double distance(MarchingDot start, MarchingDot end) {
         double startX = start.getLeftToRight();
         double startY = start.getFrontToBack();
@@ -294,6 +303,14 @@ class Midset {
         return Math.sqrt(Math.pow((endX - startX), 2) + Math.pow(endY - startY, 2));
     }
 
+    /**
+     * @param start      initial MarchingDot
+     * @param end        final MarchingDot
+     * @param field_type 0 = High School, 1 = NCAA
+     * @param hash_type  0 = Front/Back, 1 = Home/Visitor
+     * @param side_type  0 = Side 1/Side 2, 1 = Left/Right
+     * @return formatted String representing given inputs for both MarchingDots
+     */
     static String review(MarchingDot start, MarchingDot end, int field_type, int hash_type, int side_type) {
         String output;
         output = "Start:\n" +
@@ -305,6 +322,16 @@ class Midset {
         return output;
     }
 
+    /**
+     * @param start       initial MarchingDot
+     * @param end         final MarchingDot
+     * @param counts      number of counts to get from start to end
+     * @param field_type  0 = High School, 1 = NCAA
+     * @param hash_type   0 = Front/Back, 1 = Home/Visitor
+     * @param side_type   0 = Side 1/Side 2, 1 = Left/Right
+     * @param specificity 0 = no rounding, 1 = 1 decimal place, 2 = 2 decimal places, 3 = 3 decimal places
+     * @return formatted String including: start set, end set, mid set, and step size
+     */
     static String getMidsetInfo(MarchingDot start, MarchingDot end, int counts, int field_type, int hash_type, int side_type, int specificity) {
         String output;
         DecimalFormat decimalFormat;

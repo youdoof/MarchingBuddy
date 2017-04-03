@@ -73,30 +73,45 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    /**
+     * @return integer representing current field type setting
+     */
     public int readFieldType() {
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
         String fieldType = preferences.getString("field_type", "-1");
         return Integer.parseInt(fieldType);
     }
 
+    /**
+     * @return integer representing current hash type setting
+     */
     public int readHashType() {
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
         String hashType = preferences.getString("hash_type", "-1");
         return Integer.parseInt(hashType);
     }
 
+    /**
+     * @return integer representing current side type setting
+     */
     public int readSideType() {
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
         String sideType = preferences.getString("side_type", "-1");
         return Integer.parseInt(sideType);
     }
 
+    /**
+     * @return integer representing current specificity setting
+     */
     public int readSpecificity() {
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
         String specificity = preferences.getString("specificity", "-1");
         return Integer.parseInt(specificity);
     }
 
+    /**
+     * @param fragment to initialize the back stack
+     */
     private void initializeBackStack(Fragment fragment) {
         FragmentManager fragmentManager = getSupportFragmentManager();
         fragmentManager.popBackStack(BACK_STACK_ROOT, FragmentManager.POP_BACK_STACK_INCLUSIVE);
@@ -104,10 +119,16 @@ public class MainActivity extends AppCompatActivity {
         fragmentManager.beginTransaction().replace(R.id.fragment_container, fragment).addToBackStack(BACK_STACK_ROOT).commit();
     }
 
+    /**
+     * @param fragment to at to back stack
+     */
     private void addFragmentOnTop(Fragment fragment) {
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, fragment).addToBackStack(null).commit();
     }
 
+    /**
+     * @param x 1 = StartFragment initialize, 2 = EndFragment, 3 = ReviewFragment, 4 = ResultFragment, 5 = EndFragment initialize
+     */
     public void replaceFragment(int x) {
         switch (x) {
             case 1:
