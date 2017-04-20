@@ -114,7 +114,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     /**
-     * @param fragment to initialize the back stack
+     * @param fragment to initialize the back stack start point
      */
     private void initializeBackStack(Fragment fragment) {
         FragmentManager fragmentManager = getSupportFragmentManager();
@@ -124,7 +124,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     /**
-     * @param fragment to at to back stack
+     * @param fragment to add to back stack
      */
     private void addFragmentOnTop(Fragment fragment) {
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, fragment).addToBackStack(null).commit();

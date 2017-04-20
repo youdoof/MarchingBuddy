@@ -9,6 +9,9 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioButton;
+import android.widget.Toast;
+
+import java.util.BitSet;
 
 import static edu.truman.amb1664.marchingbuddy.Midset.getBS;
 import static edu.truman.amb1664.marchingbuddy.Midset.inputFB;
@@ -21,60 +24,67 @@ import static edu.truman.amb1664.marchingbuddy.Midset.inputLR;
 
 public class EndFragment extends Fragment implements View.OnClickListener {
     // Left to Right variables
-    private double steps1;
-    private int yardline1;
+    private double stepsLeftRight;
+    private int onInOut;
+    private int sideOneSideTwo;
+    private int yardlineNumber;
+
     // Front to Back variables
-    private double y1;
-    private EditText yardline;
-    private EditText stepsfb;
-    private EditText stepslr;
-    private RadioButton s1;
-    private RadioButton s2;
-    private RadioButton on;
-    private RadioButton in;
-    private RadioButton out;
-    private RadioButton onhash;
-    private RadioButton infront;
-    private RadioButton behind;
-    private RadioButton front;
-    private RadioButton back;
-    private RadioButton hash;
-    private RadioButton sideline;
+    private double stepsFrontBack;
+    private int onFrontBehind;
+    private int hashSideline;
+
+    private EditText yardline_edittext;
+    private EditText stepsfb_edittext;
+    private EditText stepslr_edittext;
+    private RadioButton s1_radiobutton;
+    private RadioButton s2_radiobutton;
+    private RadioButton on_radiobutton;
+    private RadioButton in_radiobutton;
+    private RadioButton out_radiobutton;
+    private RadioButton onhash_radiobutton;
+    private RadioButton infront_radiobutton;
+    private RadioButton behind_radiobutton;
+    private RadioButton front_radiobutton;
+    private RadioButton back_radiobutton;
+    private RadioButton hash_radiobutton;
+    private RadioButton sideline_radiobutton;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.end_fragment, container, false);
-        stepslr = (EditText) v.findViewById(R.id.editStepsLR);
-        on = (RadioButton) v.findViewById(R.id.radioOn);
-        in = (RadioButton) v.findViewById(R.id.radioInside);
-        out = (RadioButton) v.findViewById(R.id.radioOutside);
-        s1 = (RadioButton) v.findViewById(R.id.radioSide1);
-        s2 = (RadioButton) v.findViewById(R.id.radioSide2);
-        yardline = (EditText) v.findViewById(R.id.editYardline);
+        stepslr_edittext = (EditText) v.findViewById(R.id.editStepsLR);
+        on_radiobutton = (RadioButton) v.findViewById(R.id.radioOn);
+        in_radiobutton = (RadioButton) v.findViewById(R.id.radioInside);
+        out_radiobutton = (RadioButton) v.findViewById(R.id.radioOutside);
+        s1_radiobutton = (RadioButton) v.findViewById(R.id.radioSide1);
+        s2_radiobutton = (RadioButton) v.findViewById(R.id.radioSide2);
+        yardline_edittext = (EditText) v.findViewById(R.id.editYardline);
 
-        stepsfb = (EditText) v.findViewById(R.id.editStepsFB);
-        onhash = (RadioButton) v.findViewById(R.id.radioOnHash);
-        infront = (RadioButton) v.findViewById(R.id.radioInFront);
-        behind = (RadioButton) v.findViewById(R.id.radioBehind);
-        front = (RadioButton) v.findViewById(R.id.radioFront);
-        back = (RadioButton) v.findViewById(R.id.radioBack);
-        hash = (RadioButton) v.findViewById(R.id.radioHash);
-        sideline = (RadioButton) v.findViewById(R.id.radioSideline);
+        stepsfb_edittext = (EditText) v.findViewById(R.id.editStepsFB);
+        onhash_radiobutton = (RadioButton) v.findViewById(R.id.radioOnHash);
+        infront_radiobutton = (RadioButton) v.findViewById(R.id.radioInFront);
+        behind_radiobutton = (RadioButton) v.findViewById(R.id.radioBehind);
+        front_radiobutton = (RadioButton) v.findViewById(R.id.radioFront);
+        back_radiobutton = (RadioButton) v.findViewById(R.id.radioBack);
+        hash_radiobutton = (RadioButton) v.findViewById(R.id.radioHash);
+        sideline_radiobutton = (RadioButton) v.findViewById(R.id.radioSideline);
 
         int hashType = ((MainActivity) getActivity()).readHashType();
         int sideType = ((MainActivity) getActivity()).readSideType();
 
         if (hashType == 1) {
-            front.setText(getString(R.string.home));
-            back.setText(getString(R.string.visitor));
+            front_radiobutton.setText(getString(R.string.home));
+            back_radiobutton.setText(getString(R.string.visitor));
         }
         if (sideType == 1) {
-            s1.setText(getString(R.string.left));
-            s2.setText(getString(R.string.right));
+            s1_radiobutton.setText(getString(R.string.left));
+            s2_radiobutton.setText(getString(R.string.right));
         }
 
         Button b = (Button) v.findViewById(R.id.buttonPart2);
+
         b.setOnClickListener(this);
 
         return v;
@@ -82,116 +92,195 @@ public class EndFragment extends Fragment implements View.OnClickListener {
 
     @Override
     public void onClick(View view) {
-        ((MainActivity) getActivity()).readFieldType();
         int fieldType = ((MainActivity) getActivity()).readFieldType();
-        boolean cont = true;
-        ////////////////////
-        // Left to Right //
-        ///////////////////
 
-        // Step
-        //cont = getStep(steps2, cont);
-        String tempstep = stepslr.getText().toString();
-        final double step = !tempstep.equals("") ? Double.parseDouble(tempstep) : -1;
-        if (!isValidLRStep(step)) {
-            stepslr.setError("Must be <= 4!");
-            cont = false;
-        } else
-            steps1 = step;
+        checkInputError();
 
-        // On or Inside or Outside
-        //cont = getIO(IO2, cont);
-        int IO1;
-        if (on.isChecked())
-            IO1 = 0;
-        else if (in.isChecked())
-            IO1 = 1;
-        else if (out.isChecked())
-            IO1 = 2;
-        else {
-            IO1 = -1;
-            cont = false;
-        }
-
-        // Side 1 or Side 2
-        //cont = getSide(side2, cont);
-        int side1;
-        if (s1.isChecked())
-            side1 = 0;
-        else if (s2.isChecked())
-            side1 = 1;
-        else {
-            side1 = -1;
-            cont = false;
-        }
-
-        // Yardline
-        //cont = getYardline(yardline2, cont);
-        String tempyardline = yardline.getText().toString();
-        final int yard = !tempyardline.equals("") ? Integer.parseInt(tempyardline) : -1;
-        if (!isValidLRYardline(yard)) {
-            yardline.setError("Must be < 50 and divisible by 5!");
-            cont = false;
-        } else
-            yardline1 = yard;
-
-        ///////////////////
-        // Front to Back //
-        ///////////////////
-
-        // y1
-        //cont = getX(x2, cont);
-        String tempstepfb = stepsfb.getText().toString();
-        final double stepfb = !tempstepfb.equals("") ? Double.parseDouble(tempstepfb) : -1;
-        if (!isValidFBStep(stepfb)) {
-            stepsfb.setError("Must be > 0!");
-            cont = false;
-        } else
-            y1 = stepfb;
-
-        // OBF1
-        //cont = getOBF(OBF2, cont);
-        int OBF1;
-        if (onhash.isChecked())
-            OBF1 = 0;
-        else if (infront.isChecked())
-            OBF1 = 1;
-        else if (behind.isChecked())
-            OBF1 = 2;
-        else {
-            OBF1 = -1;
-            cont = false;
-        }
-
-        // HS1
-        //cont = getHS(HS2, cont);
-        int HS1;
-        if (front.isChecked() && sideline.isChecked())
-            HS1 = 0;
-        else if (front.isChecked() && hash.isChecked())
-            HS1 = 1;
-        else if (back.isChecked() && hash.isChecked())
-            HS1 = 2;
-        else if (back.isChecked() && sideline.isChecked())
-            HS1 = 3;
-        else {
-            HS1 = -1;
-            cont = false;
-        }
-
-        if (cont) {
-            MarchingDot end = new MarchingDot(inputLR(steps1, IO1, side1, yardline1), inputFB(y1, OBF1, HS1, fieldType));
+        if (checkCompletion()) {
+            MarchingDot end = new MarchingDot(inputLR(stepsLeftRight, onInOut, sideOneSideTwo, yardlineNumber), inputFB(stepsFrontBack, onFrontBehind, hashSideline, fieldType));
             ((MainActivity) getActivity()).setEnd_dot(end);
             ((MainActivity) getActivity()).replaceFragment(3);
         }
     }
 
+    private void checkInputError() {
+        BitSet groupOnInOut = new BitSet(3);
+        BitSet groupSides = new BitSet(2);
+        BitSet groupOnFrontBehind = new BitSet(3);
+        BitSet groupFrontBack = new BitSet(2);
+        BitSet groupHashSideline = new BitSet(2);
+        BitSet groupBitSets = new BitSet(5);
+        int hashtype = ((MainActivity) getActivity()).readHashType();
+        int sidetype = ((MainActivity) getActivity()).readSideType();
+        String toastString = "Please Check Radio Buttons:\n";
+
+        groupOnInOut.set(0, on_radiobutton.isChecked());
+        groupOnInOut.set(1, in_radiobutton.isChecked());
+        groupOnInOut.set(2, out_radiobutton.isChecked());
+        groupSides.set(0, s1_radiobutton.isChecked());
+        groupSides.set(1, s2_radiobutton.isChecked());
+        groupOnFrontBehind.set(0, onhash_radiobutton.isChecked());
+        groupOnFrontBehind.set(1, infront_radiobutton.isChecked());
+        groupOnFrontBehind.set(2, behind_radiobutton.isChecked());
+        groupFrontBack.set(0, front_radiobutton.isChecked());
+        groupFrontBack.set(1, back_radiobutton.isChecked());
+        groupHashSideline.set(0, hash_radiobutton.isChecked());
+        groupHashSideline.set(1, sideline_radiobutton.isChecked());
+
+        // Group On In Out
+        if (groupOnInOut.cardinality() != 1)
+            toastString = toastString + "On In Out\n";
+        else
+            groupBitSets.set(0);
+
+        // Group Sides
+        if (groupSides.cardinality() != 1) {
+            if (sidetype == 0)
+                toastString = toastString + "Side 1 Side 2\n";
+            else
+                toastString = toastString + "Left Right\n";
+        } else
+            groupBitSets.set(1);
+
+        // Group On Front Behind
+        if (groupOnFrontBehind.cardinality() != 1)
+            toastString = toastString + "On Front Behind\n";
+        else
+            groupBitSets.set(2);
+
+        // Group Front Back
+        if (groupFrontBack.cardinality() != 1) {
+            if (hashtype == 0)
+                toastString = toastString + "Front Back\n";
+            else
+                toastString = toastString + "Home Visitor\n";
+        } else
+            groupBitSets.set(3);
+
+        // Group Hash Sideline
+        if (groupHashSideline.cardinality() != 1)
+            toastString = toastString + "Hash Sideline\n";
+        else
+            groupBitSets.set(4);
+
+        // Check if all groups were set. If all were set, then
+        // one of each group was selected, and no Toast needed.
+        if (groupBitSets.cardinality() != 5) {
+            toastString = toastString + "Thanks!";
+            Toast.makeText(getContext(), toastString, Toast.LENGTH_LONG).show();
+        }
+    }
+
+    private boolean checkCompletion() {
+        BitSet complete = new BitSet(7);
+        complete.set(0, getStepsLeftRight());
+        complete.set(1, getOnInOut());
+        complete.set(2, getSideOneSideTwo());
+        complete.set(3, getYardlineNumber());
+        complete.set(4, getStepsFrontBack());
+        complete.set(5, getOnFrontBehind());
+        complete.set(6, getHashSideline());
+        return complete.cardinality() == 7;
+    }
+
+    private boolean getStepsLeftRight() {
+        String tempstep = stepslr_edittext.getText().toString();
+        final double step = !tempstep.equals("") ? Double.parseDouble(tempstep) : -1;
+        if (!isValidLRStep(step)) {
+            stepslr_edittext.setError("Must be <= 4");
+            return false;
+        } else {
+            stepsLeftRight = step;
+            return true;
+        }
+    }
+
+    private boolean getOnInOut() {
+        if (on_radiobutton.isChecked()) {
+            onInOut = 0;
+            return true;
+        } else if (in_radiobutton.isChecked()) {
+            onInOut = 1;
+            return true;
+        } else if (out_radiobutton.isChecked()) {
+            onInOut = 2;
+            return true;
+        } else
+            return false;
+    }
+
+    private boolean getSideOneSideTwo() {
+        if (s1_radiobutton.isChecked()) {
+            sideOneSideTwo = 0;
+            return true;
+        } else if (s2_radiobutton.isChecked()) {
+            sideOneSideTwo = 1;
+            return true;
+        } else
+            return false;
+    }
+
+    private boolean getYardlineNumber() {
+        String tempyardline = yardline_edittext.getText().toString();
+        final int yard = !tempyardline.equals("") ? Integer.parseInt(tempyardline) : -1;
+        if (!isValidLRYardline(yard)) {
+            yardline_edittext.setError("Must be <= 50 and divisible by 5.");
+            return false;
+        } else {
+            yardlineNumber = yard;
+            return true;
+        }
+    }
+
+    private boolean getStepsFrontBack() {
+        String tempstepfb = stepsfb_edittext.getText().toString();
+        final double stepfb = !tempstepfb.equals("") ? Double.parseDouble(tempstepfb) : -1;
+        if (!isValidFBStep(stepfb)) {
+            stepsfb_edittext.setError("Must be > 0.");
+            return false;
+        } else {
+            stepsFrontBack = stepfb;
+            return true;
+        }
+    }
+
+    private boolean getOnFrontBehind() {
+        if (onhash_radiobutton.isChecked()) {
+            onFrontBehind = 0;
+            return true;
+        } else if (infront_radiobutton.isChecked()) {
+            onFrontBehind = 1;
+            return true;
+        } else if (behind_radiobutton.isChecked()) {
+            onFrontBehind = 2;
+            return true;
+        } else
+            return false;
+    }
+
+    private boolean getHashSideline() {
+        if (front_radiobutton.isChecked() && sideline_radiobutton.isChecked()) {
+            hashSideline = 0;
+            return true;
+        } else if (front_radiobutton.isChecked() && hash_radiobutton.isChecked()) {
+            hashSideline = 1;
+            return true;
+        } else if (back_radiobutton.isChecked() && hash_radiobutton.isChecked()) {
+            hashSideline = 2;
+            return true;
+        } else if (back_radiobutton.isChecked() && sideline_radiobutton.isChecked()) {
+            hashSideline = 3;
+            return true;
+        } else
+            return false;
+    }
+
     private boolean isValidLRStep(double x) {
-        return on.isChecked() || x <= 4 && x > 0;
+        return on_radiobutton.isChecked() || x <= 4 && x > 0;
     }
 
     private boolean isValidFBStep(double x) {
-        return onhash.isChecked() || x > 0 && x < getBS();
+        return onhash_radiobutton.isChecked() || x > 0 && x < getBS();
     }
 
     private boolean isValidLRYardline(int x) {
