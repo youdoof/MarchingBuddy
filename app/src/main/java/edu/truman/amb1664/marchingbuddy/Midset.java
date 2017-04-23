@@ -18,10 +18,13 @@ class Midset {
     private static final String HOME_HASH = "Home";
     private static final String VISITOR_HASH = "Visitor";
     // Side Type Constants
-    private static final String ONE_SIDE = "Side 1 ";
-    private static final String TWO_SIDE = "Side 2 ";
-    private static final String LEFT_SIDE = "Left ";
-    private static final String RIGHT_SIDE = "Right ";
+    private static final String ONE_SIDE = "Side 1: ";
+    private static final String TWO_SIDE = "Side 2: ";
+    private static final String LEFT_SIDE = "Left: ";
+    private static final String RIGHT_SIDE = "Right: ";
+    // Field Type Constants
+    private static final String HIGH_SCHOOL = " (HS)";
+    private static final String NCAA_COLLEGE = " (NCAA)";
     // Stepsize Constant -- 8 to 5
     private static final double STEPS = 8.0;
     // Global Sidelines
@@ -82,14 +85,17 @@ class Midset {
         double bh;
         String front;
         String back;
+        String field;
 
         // Modify type of field from Settings
         if (field_type == 0) {
             fh = HS_FH;
             bh = HS_BH;
+            field = HIGH_SCHOOL;
         } else {
             fh = NCAA_FH;
             bh = NCAA_BH;
+            field = NCAA_COLLEGE;
         }
 
         // Modify type of hash from Settings
@@ -103,38 +109,38 @@ class Midset {
 
         // Middle of the field.
         if (y == 0) {
-            output = -fh + " behind " + front + " Hash";
+            output = -fh + " steps behind " + front + " hash" + field;
             // return output;
         }
         // Front half of the field.
         else if (y < 0) {
             if (y > fh)
-                output = (-fh + y) + " behind " + front + " Hash";
+                output = (-fh + y) + " steps behind " + front + " hash" + field;
             else if (y == fh)
-                output = "On " + front + " Hash";
+                output = "On " + front + " hash" + field;
             else if (y < fh && y > ((FS + fh) / 2))
-                output = (fh + -y) + " in front of " + front + " Hash";
+                output = (fh + -y) + " steps in front of " + front + " hash" + field;
             else if (y > FS)
-                output = (-FS + y) + " behind " + front + " Sideline";
+                output = (-FS + y) + " steps behind " + front + " sideline" + field;
             else if (y == FS)
-                output = "On " + front + " Sideline";
+                output = "On " + front + " sideline" + field;
             else // -FS + x
-                output = -(y - FS) + " in front of " + front + " Sideline";
+                output = -(y - FS) + " steps in front of " + front + " sideline" + field;
         }
         // Back half of the field.
         else {
             if (y < bh)
-                output = (bh - y) + " in front of " + back + " Hash";
+                output = (bh - y) + " steps in front of " + back + " hash" + field;
             else if (y == bh)
-                output = "On " + back + " Hash";
+                output = "On " + back + " hash" + field;
             else if (y > bh && y < ((BS + bh) / 2))
-                output = (y - bh) + " behind " + back + " Hash";
+                output = (y - bh) + " steps behind " + back + " hash" + field;
             else if (y < BS)
-                output = (BS - y) + " in front of " + back + " Sideline";
+                output = (BS - y) + " steps in front of " + back + " sideline" + field;
             else if (y == BS)
-                output = "On " + back + " Sideline";
+                output = "On " + back + " sideline" + field;
             else
-                output = (y - BS) + " behind " + back + " Sideline";
+                output = (y - BS) + " steps behind " + back + " sideline" + field;
         }
 
         return output;
@@ -173,12 +179,12 @@ class Midset {
             int yardline = (int) (x / 8);
             double step = x % 8;
             if (step == 0.0) {
-                output = "On " + right + YARDLINES[yardline];
+                output = right + "On " + YARDLINES[yardline];
             } else if (step <= 4.0) {
-                output = step + " steps Outside " + right + YARDLINES[yardline];
+                output = right + step + " steps outside " + YARDLINES[yardline];
             } else {
                 step = 8 - step;
-                output = step + " steps Inside " + right + YARDLINES[yardline + 1];
+                output = right + step + " steps inside " + YARDLINES[yardline + 1];
             }
         }
         // Side 1, Left Side
@@ -186,12 +192,12 @@ class Midset {
             int yardline = (int) (x / 8);
             double step = x % 8;
             if (step == 0.0) {
-                output = "On " + left + YARDLINES[-yardline];
+                output = left + "On " + YARDLINES[-yardline];
             } else if (step >= -4.0) {
-                output = -step + " steps Outside " + left + YARDLINES[-yardline];
+                output = left + -step + " steps outside " + YARDLINES[-yardline];
             } else {
                 step = 8 + step;
-                output = step + " steps Inside " + left + YARDLINES[-yardline + 1];
+                output = left + step + " steps inside " + YARDLINES[-yardline + 1];
             }
         }
         return output;
