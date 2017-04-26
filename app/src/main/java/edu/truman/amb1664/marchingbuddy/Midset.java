@@ -249,7 +249,6 @@ class Midset {
                     result = findYardline(yardline) + steps;
                 break;
         }
-        //System.out.println(result);
         return result;
     }
 
@@ -313,7 +312,6 @@ class Midset {
                     result = BS + y;
                 break;
         }
-        //System.out.println(result);
         return result;
     }
 
