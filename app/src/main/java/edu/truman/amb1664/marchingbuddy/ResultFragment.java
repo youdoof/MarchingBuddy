@@ -26,12 +26,13 @@ public class ResultFragment extends Fragment implements View.OnClickListener {
         int fieldType = ((MainActivity) getActivity()).readFieldType();
         int hashType = ((MainActivity) getActivity()).readHashType();
         int sideType = ((MainActivity) getActivity()).readSideType();
+        Field f = new Field(fieldType, sideType, hashType);
         int specificity = ((MainActivity) getActivity()).readSpecificity();
-        MarchingDot start = ((MainActivity) getActivity()).getStart_dot();
-        MarchingDot end = ((MainActivity) getActivity()).getEnd_dot();
+        Coordinate start = ((MainActivity) getActivity()).getStartCoordinate();
+        Coordinate end = ((MainActivity) getActivity()).getEndCoordinate();
         int counts = ((MainActivity) getActivity()).getCounts();
 
-        display.setText(Midset.getMidsetInfo(start, end, counts, fieldType, hashType, sideType, specificity));
+        display.setText(Midset.getMidsetInformation(start, end, counts, f, specificity));
 
         b.setOnClickListener(this);
         b2.setOnClickListener(this);
@@ -45,7 +46,7 @@ public class ResultFragment extends Fragment implements View.OnClickListener {
                 ((MainActivity) getActivity()).replaceFragment(1);
                 break;
             case R.id.buttonUseEnd:
-                ((MainActivity) getActivity()).setStart_dot(((MainActivity) getActivity()).getEnd_dot());
+                ((MainActivity) getActivity()).setStartCoordinate(((MainActivity) getActivity()).getEndCoordinate());
                 ((MainActivity) getActivity()).replaceFragment(5);
                 break;
             default:

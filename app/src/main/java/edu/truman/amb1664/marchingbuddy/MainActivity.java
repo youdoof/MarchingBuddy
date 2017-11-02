@@ -15,26 +15,48 @@ import android.view.MenuItem;
  * @since 3/21/17
  */
 public class MainActivity extends AppCompatActivity {
+    /**
+     * Here's the stuff since school was let out:
+     */
     private static final String BACK_STACK_ROOT = "root_fragment";
-    private MarchingDot start_dot;
-    private MarchingDot end_dot;
+    /**
+     * As of 11/1/2017 Here's this:
+     * here we're gonna set up the seekbars and their maths that
+     * incorporate the new stuffs!
+     */
+    final int HALF_SPEC = 2;
+    final int QUARTER_SPEC = 4;
+    final int DEFAULT_SPEC = 8;
+    final int EIGHTH_SPEC = 8;
+    final int SIXTEENTH_SPEC = 16;
+    final int THIRTY_SECOND_SPEC = 32;
+    int[] SPEC_ARRAY = {DEFAULT_SPEC, HALF_SPEC, QUARTER_SPEC,
+            EIGHTH_SPEC, SIXTEENTH_SPEC, THIRTY_SECOND_SPEC};
+
+    private Coordinate startCoordinate;
+    private Coordinate endCoordinate;
     private int counts;
+    //private Field field = new Field(readFieldType(), readSideType(), readHashType());
 
-    public MarchingDot getStart_dot() {
-        return start_dot;
+    public Coordinate getStartCoordinate() {
+        return startCoordinate;
     }
 
-    public void setStart_dot(MarchingDot start_dot) {
-        this.start_dot = start_dot;
+    public void setStartCoordinate(Coordinate startCoordinate) {
+        this.startCoordinate = startCoordinate;
     }
 
-    public MarchingDot getEnd_dot() {
-        return end_dot;
+    public Coordinate getEndCoordinate() {
+        return endCoordinate;
     }
 
-    public void setEnd_dot(MarchingDot end_dot) {
-        this.end_dot = end_dot;
+    public void setEndCoordinate(Coordinate endCoordinate) {
+        this.endCoordinate = endCoordinate;
     }
+
+//    public Field getField() {
+//        return field;
+//    }
 
     public int getCounts() {
         return counts;
@@ -111,6 +133,10 @@ public class MainActivity extends AppCompatActivity {
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
         String specificity = preferences.getString("specificity", "-1");
         return Integer.parseInt(specificity);
+    }
+
+    public int getConvertedSpecificity() {
+        return SPEC_ARRAY[readSpecificity()];
     }
 
     /**

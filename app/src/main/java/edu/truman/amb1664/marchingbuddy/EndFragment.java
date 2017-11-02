@@ -14,8 +14,8 @@ import android.widget.Toast;
 import java.util.BitSet;
 
 import static edu.truman.amb1664.marchingbuddy.Midset.getBS;
-import static edu.truman.amb1664.marchingbuddy.Midset.inputFB;
-import static edu.truman.amb1664.marchingbuddy.Midset.inputLR;
+import static edu.truman.amb1664.marchingbuddy.Midset.inputFrontToBack;
+import static edu.truman.amb1664.marchingbuddy.Midset.inputLeftToRight;
 
 /**
  * @author Andrew Brogan
@@ -93,12 +93,15 @@ public class EndFragment extends Fragment implements View.OnClickListener {
     @Override
     public void onClick(View view) {
         int fieldType = ((MainActivity) getActivity()).readFieldType();
+        int hashType = ((MainActivity) getActivity()).readHashType();
+        int sideType = ((MainActivity) getActivity()).readSideType();
+        Field f = new Field(fieldType, sideType, hashType);
 
         checkInputError();
 
         if (checkCompletion()) {
-            MarchingDot end = new MarchingDot(inputLR(stepsLeftRight, onInOut, sideOneSideTwo, yardlineNumber), inputFB(stepsFrontBack, onFrontBehind, hashSideline, fieldType));
-            ((MainActivity) getActivity()).setEnd_dot(end);
+            Coordinate end = new Coordinate(inputLeftToRight(stepsLeftRight, onInOut, sideOneSideTwo, yardlineNumber), inputFrontToBack(stepsFrontBack, onFrontBehind, hashSideline, f));
+            ((MainActivity) getActivity()).setEndCoordinate(end);
             ((MainActivity) getActivity()).replaceFragment(3);
         }
     }

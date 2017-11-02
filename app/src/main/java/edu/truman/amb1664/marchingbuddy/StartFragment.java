@@ -3,19 +3,20 @@ package edu.truman.amb1664.marchingbuddy;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.RadioButton;
-import android.widget.Toast;
+import android.widget.RadioGroup;
+import android.widget.SeekBar;
+import android.widget.TextView;
 
 import java.util.BitSet;
 
-import static edu.truman.amb1664.marchingbuddy.Midset.getBS;
-import static edu.truman.amb1664.marchingbuddy.Midset.inputFB;
-import static edu.truman.amb1664.marchingbuddy.Midset.inputLR;
+import static edu.truman.amb1664.marchingbuddy.Midset.inputFrontToBack;
+import static edu.truman.amb1664.marchingbuddy.Midset.inputLeftToRight;
 
 /**
  * @author Andrew Brogan
@@ -34,9 +35,18 @@ public class StartFragment extends Fragment implements View.OnClickListener {
     private int onFrontBehind;
     private int hashSideline;
 
-    private EditText yardline_edittext;
-    private EditText stepsfb_edittext;
-    private EditText stepslr_edittext;
+    // UI Overhaul 11/1/2017
+    // Switching to using SeekBars
+    private TextView stepslr_textview;
+    private TextView yardline_textview;
+    private TextView stepsfb_textview;
+    //private SeekBar stepslr_seekbar;
+    //private SeekBar yardline_seekbar;
+    //private SeekBar stepsfb_seekbar;
+
+    //    private EditText yardline_edittext;
+//    private EditText stepsfb_edittext;
+//    private EditText stepslr_edittext;
     private RadioButton s1_radiobutton;
     private RadioButton s2_radiobutton;
     private RadioButton on_radiobutton;
@@ -50,19 +60,32 @@ public class StartFragment extends Fragment implements View.OnClickListener {
     private RadioButton hash_radiobutton;
     private RadioButton sideline_radiobutton;
 
+    private RadioGroup groupOnInOut;
+    private RadioGroup groupSides;
+    private RadioGroup groupOnFrontBehind;
+    private RadioGroup groupFrontBack;
+    private RadioGroup groupHashSideline;
+
+//    BitSet groupOnInOut = new BitSet(3);
+//    BitSet groupSides = new BitSet(2);
+//    BitSet groupOnFrontBehind = new BitSet(3);
+//    BitSet groupFrontBack = new BitSet(2);
+//    BitSet groupHashSideline = new BitSet(2);
+//    BitSet groupBitSets = new BitSet(5);
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.start_fragment, container, false);
-        stepslr_edittext = (EditText) v.findViewById(R.id.editStepsLR);
+        View v = inflater.inflate(R.layout.input_fragment, container, false);
+        stepslr_textview = (TextView) v.findViewById(R.id.textStepsLR);
         on_radiobutton = (RadioButton) v.findViewById(R.id.radioOn);
         in_radiobutton = (RadioButton) v.findViewById(R.id.radioInside);
         out_radiobutton = (RadioButton) v.findViewById(R.id.radioOutside);
         s1_radiobutton = (RadioButton) v.findViewById(R.id.radioSide1);
         s2_radiobutton = (RadioButton) v.findViewById(R.id.radioSide2);
-        yardline_edittext = (EditText) v.findViewById(R.id.editYardline);
+        yardline_textview = (TextView) v.findViewById(R.id.textYardline);
 
-        stepsfb_edittext = (EditText) v.findViewById(R.id.editStepsFB);
+        stepsfb_textview = (TextView) v.findViewById(R.id.textStepsFB);
         onhash_radiobutton = (RadioButton) v.findViewById(R.id.radioOnHash);
         infront_radiobutton = (RadioButton) v.findViewById(R.id.radioInFront);
         behind_radiobutton = (RadioButton) v.findViewById(R.id.radioBehind);
@@ -70,6 +93,88 @@ public class StartFragment extends Fragment implements View.OnClickListener {
         back_radiobutton = (RadioButton) v.findViewById(R.id.radioBack);
         hash_radiobutton = (RadioButton) v.findViewById(R.id.radioHash);
         sideline_radiobutton = (RadioButton) v.findViewById(R.id.radioSideline);
+
+        groupOnInOut = (RadioGroup) v.findViewById(R.id.radioGroupOnInOut);
+        groupSides = (RadioGroup) v.findViewById(R.id.radioGroupSides);
+        groupOnFrontBehind = (RadioGroup) v.findViewById(R.id.radioGroupOnFrontBehind);
+        groupFrontBack = (RadioGroup) v.findViewById(R.id.radioGroupFrontBack);
+        groupHashSideline = (RadioGroup) v.findViewById(R.id.radioGroupHashSideline);
+
+        // Final specificity grab from preferences to get to rounding
+        final int spec = ((MainActivity) getActivity()).getConvertedSpecificity();
+
+        /*
+         * Left To Right SeekBar Setup
+         *
+         */
+        final SeekBar stepslr_seekbar = (SeekBar) v.findViewById(R.id.seekBarStepsLR);
+        stepslr_seekbar.setMax(seekBarLRMaxCalc(spec));
+        stepslr_seekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean b) {
+                stepslr_textview.setText(intervalCalc(progress, spec) + " Steps");
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+
+            }
+        });
+
+        /*
+         * Yard Line SeekBar Setup
+         *
+         */
+        final SeekBar yardline_seekbar = (SeekBar) v.findViewById(R.id.seekBarYardline);
+        // sets maximum to one less than the length of the YardLines array
+        yardline_seekbar.setMax(Midset.YARD_LINES.length - 1);
+        yardline_seekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean b) {
+                yardline_textview.setText(Midset.getYardline(progress) + " Yard Line");
+                Log.d("Yard Line: " + Midset.getYardline(progress), "Progress: " + progress);
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+
+            }
+        });
+
+        /*
+         * Front To Back SeekBar Setup
+         *
+         */
+
+        final SeekBar stepsfb_seekbar = (SeekBar) v.findViewById(R.id.seekBarStepsFB);
+        // Arbitrarily chosen this number of 32. Might need to revisit this sometime afterwards.
+        stepsfb_seekbar.setMax(seekBarFBMaxCalc(spec));
+        stepsfb_seekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean b) {
+                stepsfb_textview.setText(intervalCalc(progress, spec) + " Steps");
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+
+            }
+        });
 
         int hashType = ((MainActivity) getActivity()).readHashType();
         int sideType = ((MainActivity) getActivity()).readSideType();
@@ -93,84 +198,85 @@ public class StartFragment extends Fragment implements View.OnClickListener {
     @Override
     public void onClick(View view) {
         int fieldType = ((MainActivity) getActivity()).readFieldType();
+        int hashType = ((MainActivity) getActivity()).readHashType();
+        int sideType = ((MainActivity) getActivity()).readSideType();
+        Field f = new Field(fieldType, sideType, hashType);
 
-        checkInputError();
+        checkInputErrorAgain();
 
         if (checkCompletion()) {
-            MarchingDot start = new MarchingDot(inputLR(stepsLeftRight, onInOut, sideOneSideTwo, yardlineNumber), inputFB(stepsFrontBack, onFrontBehind, hashSideline, fieldType));
-            ((MainActivity) getActivity()).setStart_dot(start);
+            Coordinate start = new Coordinate(
+                    inputLeftToRight(stepsLeftRight, onInOut, sideOneSideTwo, yardlineNumber),
+                    inputFrontToBack(stepsFrontBack, onFrontBehind, hashSideline, f));
+            ((MainActivity) getActivity()).setStartCoordinate(start);
             ((MainActivity) getActivity()).replaceFragment(2);
         }
     }
 
-    private void checkInputError() {
-        BitSet groupOnInOut = new BitSet(3);
-        BitSet groupSides = new BitSet(2);
-        BitSet groupOnFrontBehind = new BitSet(3);
-        BitSet groupFrontBack = new BitSet(2);
-        BitSet groupHashSideline = new BitSet(2);
-        BitSet groupBitSets = new BitSet(5);
-        int hashtype = ((MainActivity) getActivity()).readHashType();
-        int sidetype = ((MainActivity) getActivity()).readSideType();
-        String toastString = "Please Check Radio Buttons:\n";
-
-        groupOnInOut.set(0, on_radiobutton.isChecked());
-        groupOnInOut.set(1, in_radiobutton.isChecked());
-        groupOnInOut.set(2, out_radiobutton.isChecked());
-        groupSides.set(0, s1_radiobutton.isChecked());
-        groupSides.set(1, s2_radiobutton.isChecked());
-        groupOnFrontBehind.set(0, onhash_radiobutton.isChecked());
-        groupOnFrontBehind.set(1, infront_radiobutton.isChecked());
-        groupOnFrontBehind.set(2, behind_radiobutton.isChecked());
-        groupFrontBack.set(0, front_radiobutton.isChecked());
-        groupFrontBack.set(1, back_radiobutton.isChecked());
-        groupHashSideline.set(0, hash_radiobutton.isChecked());
-        groupHashSideline.set(1, sideline_radiobutton.isChecked());
-
-        // Group On In Out
-        if (groupOnInOut.cardinality() != 1)
-            toastString = toastString + "On In Out\n";
-        else
-            groupBitSets.set(0);
-
-        // Group Sides
-        if (groupSides.cardinality() != 1) {
-            if (sidetype == 0)
-                toastString = toastString + "Side 1 Side 2\n";
-            else
-                toastString = toastString + "Left Right\n";
-        } else
-            groupBitSets.set(1);
-
-        // Group On Front Behind
-        if (groupOnFrontBehind.cardinality() != 1)
-            toastString = toastString + "On Front Behind\n";
-        else
-            groupBitSets.set(2);
-
-        // Group Front Back
-        if (groupFrontBack.cardinality() != 1) {
-            if (hashtype == 0)
-                toastString = toastString + "Front Back\n";
-            else
-                toastString = toastString + "Home Visitor\n";
-        } else
-            groupBitSets.set(3);
-
-        // Group Hash Sideline
-        if (groupHashSideline.cardinality() != 1)
-            toastString = toastString + "Hash Sideline\n";
-        else
-            groupBitSets.set(4);
-
-        // Check if all groups were set. If all were set, then
-        // one of each group was selected, and no Toast needed.
-        if (groupBitSets.cardinality() != 5) {
-            toastString = toastString + "Thanks!";
-            Toast.makeText(getContext(), toastString, Toast.LENGTH_LONG).show();
-        }
+    private double intervalCalc(int progress, int specificity) {
+        return (double) progress / (double) specificity;
     }
 
+    /**
+     * Helps setup Left to Right SeekBar
+     *
+     * @param specificity how specific the sliders will be
+     * @return max for seek bar
+     */
+    private int seekBarLRMaxCalc(int specificity) {
+        return specificity * 4;
+    }
+
+    private int seekBarFBMaxCalc(int specificity) {
+        return specificity * 16;
+    }
+
+    /**
+     * Checks all radio buttons to ensure all were pressed,
+     * sets an error on the group that does not have a
+     * button selected.
+     */
+    private void checkInputErrorAgain() {
+        BitSet groupBitSets = new BitSet(5);
+        if (groupOnInOut.getCheckedRadioButtonId() <= 0) {
+            out_radiobutton.setError("Select Item");
+        } else {
+            out_radiobutton.setError(null);
+            groupBitSets.set(0);
+        }
+
+        if (groupSides.getCheckedRadioButtonId() <= 0) {
+            s2_radiobutton.setError("Select Item");
+        } else {
+            s2_radiobutton.setError(null);
+        }
+
+        if (groupOnFrontBehind.getCheckedRadioButtonId() <= 0) {
+            behind_radiobutton.setError("Select Item");
+        } else {
+            behind_radiobutton.setError(null);
+        }
+
+        if (groupFrontBack.getCheckedRadioButtonId() <= 0) {
+            back_radiobutton.setError("Select Item");
+        } else {
+            back_radiobutton.setError(null);
+        }
+
+        if (groupHashSideline.getCheckedRadioButtonId() <= 0) {
+            sideline_radiobutton.setError("Select Item");
+        } else {
+            sideline_radiobutton.setError(null);
+        }
+
+    }
+
+
+    /**
+     * checks to see that all the bitset groups have completed
+     *
+     * @return true if complete, false otherwise
+     */
     private boolean checkCompletion() {
         BitSet complete = new BitSet(7);
         complete.set(0, getStepsLeftRight());
@@ -184,15 +290,9 @@ public class StartFragment extends Fragment implements View.OnClickListener {
     }
 
     private boolean getStepsLeftRight() {
-        String tempstep = stepslr_edittext.getText().toString();
-        final double step = !tempstep.equals("") ? Double.parseDouble(tempstep) : -1;
-        if (!isValidLRStep(step)) {
-            stepslr_edittext.setError("Must be <= 4");
-            return false;
-        } else {
-            stepsLeftRight = step;
+        SeekBar seekBar = (SeekBar) getView().findViewById(R.id.seekBarStepsLR);
+        stepsLeftRight = intervalCalc(seekBar.getProgress(), ((MainActivity) getActivity()).getConvertedSpecificity());
             return true;
-        }
     }
 
     private boolean getOnInOut() {
@@ -221,27 +321,15 @@ public class StartFragment extends Fragment implements View.OnClickListener {
     }
 
     private boolean getYardlineNumber() {
-        String tempyardline = yardline_edittext.getText().toString();
-        final int yard = !tempyardline.equals("") ? Integer.parseInt(tempyardline) : -1;
-        if (!isValidLRYardline(yard)) {
-            yardline_edittext.setError("Must be <= 50 and divisible by 5.");
-            return false;
-        } else {
-            yardlineNumber = yard;
-            return true;
-        }
+        SeekBar seekBar = (SeekBar) getView().findViewById(R.id.seekBarYardline);
+        yardlineNumber = Midset.getYardline(seekBar.getProgress());
+        return true;
     }
 
     private boolean getStepsFrontBack() {
-        String tempstepfb = stepsfb_edittext.getText().toString();
-        final double stepfb = !tempstepfb.equals("") ? Double.parseDouble(tempstepfb) : -1;
-        if (!isValidFBStep(stepfb)) {
-            stepsfb_edittext.setError("Must be > 0.");
-            return false;
-        } else {
-            stepsFrontBack = stepfb;
-            return true;
-        }
+        SeekBar seekBar = (SeekBar) getView().findViewById(R.id.seekBarStepsFB);
+        stepsFrontBack = intervalCalc(seekBar.getProgress(), ((MainActivity) getActivity()).getConvertedSpecificity());
+        return true;
     }
 
     private boolean getOnFrontBehind() {
@@ -275,15 +363,15 @@ public class StartFragment extends Fragment implements View.OnClickListener {
             return false;
     }
 
-    private boolean isValidLRStep(double x) {
-        return on_radiobutton.isChecked() || x <= 4 && x > 0;
-    }
-
-    private boolean isValidFBStep(double x) {
-        return onhash_radiobutton.isChecked() || x > 0 && x < getBS();
-    }
-
-    private boolean isValidLRYardline(int x) {
-        return x <= 50 && (x % 5 == 0);
-    }
+//    private boolean isValidLRStep(double x) {
+//        return on_radiobutton.isChecked() || x <= 4 && x > 0;
+//    }
+//
+//    private boolean isValidFBStep(double x) {
+//        return onhash_radiobutton.isChecked() || x > 0 && x < getBS();
+//    }
+//
+//    private boolean isValidLRYardline(int x) {
+//        return x <= 50 && (x % 5 == 0);
+//    }
 }

@@ -9,7 +9,7 @@
     tools:context=".ReviewFragment">
 
     <TextView
-        android:id="@+id/textReview"
+        android:id="@+id/textReviewTitle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
@@ -23,9 +23,9 @@
         android:id="@+id/textPreview"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignEnd="@+id/textReview"
-        android:layout_alignRight="@+id/textReview"
-        android:layout_below="@+id/textReview"
+        android:layout_alignEnd="@+id/textReviewTitle"
+        android:layout_alignRight="@+id/textReviewTitle"
+        android:layout_below="@+id/textReviewTitle"
         android:textSize="18sp" />
 
     <EditText

@@ -1,7 +1,7 @@
 package edu.truman.amb1664.marchingbuddy;
 
 /**
- * MarchingDot is what the system uses to hold the information
+ * Coordinate is what the system uses to hold the information
  * contained within a dot. The Left to Right coordinate x, and
  * the Front to Back coordinate y.
  *
@@ -9,28 +9,28 @@ package edu.truman.amb1664.marchingbuddy;
  * @since 3/23/2017
  */
 
-class MarchingDot {
-    private final double leftToRight;
-    private final double frontToBack;
+class Coordinate {
+    private double leftToRight;
+    private double frontToBack;
 
     /**
      * @param leftToRight double representing the 'x' coordinate for computation
      * @param frontToBack double representing the 'y' coordinate for computation
      */
-    MarchingDot(double leftToRight, double frontToBack) {
+    Coordinate(double leftToRight, double frontToBack) {
         this.leftToRight = leftToRight;
         this.frontToBack = frontToBack;
     }
 
     /**
-     * @return double for 'x' coordinate of MarchingDot
+     * @return double for 'x' coordinate of Coordinate
      */
     double getLeftToRight() {
         return leftToRight;
     }
 
     /**
-     * @return double for 'y' coordinate fof MarchingDot
+     * @return double for 'y' coordinate fof Coordinate
      */
     double getFrontToBack() {
         return frontToBack;

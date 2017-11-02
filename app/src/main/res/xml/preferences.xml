@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
     <PreferenceCategory
-        android:key="pref_key_label_settings"
-        android:title="Labels">
+        android:key="pref_key_term_settings"
+        android:title="Terminology">
         <ListPreference
             android:defaultValue="1"
             android:entries="@array/pref_field_type"
@@ -33,7 +33,7 @@
             android:entries="@array/pref_specificity"
             android:entryValues="@array/pref_specificity_values"
             android:key="specificity"
-            android:summary="How many decimal places to round to for stepsizes."
-            android:title="Step Size and Midset Specificity" />
+            android:summary="Default: Nearest Eighth Step"
+            android:title="Rounding" />
     </PreferenceCategory>
 </PreferenceScreen>

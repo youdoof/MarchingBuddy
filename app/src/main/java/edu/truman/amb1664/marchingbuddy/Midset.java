@@ -1,7 +1,5 @@
 package edu.truman.amb1664.marchingbuddy;
 
-import java.text.DecimalFormat;
-
 /**
  * Midset is a helper class that has the methods to
  * compute the midset and step size for each set.
@@ -11,7 +9,7 @@ import java.text.DecimalFormat;
  */
 class Midset {
     // Yardline Constants
-    private static final int[] YARDLINES = {50, 45, 40, 35, 30, 25, 20, 15, 10, 5, 0};
+    static final int[] YARD_LINES = {50, 45, 40, 35, 30, 25, 20, 15, 10, 5, 0};
     // Hash Type Constants
     private static final String FRONT_HASH = "Front";
     private static final String BACK_HASH = "Back";
@@ -23,303 +21,298 @@ class Midset {
     private static final String LEFT_SIDE = "Left ";
     private static final String RIGHT_SIDE = "Right ";
     // Stepsize Constant -- 8 to 5
-    private static final double STEPS = 8.0;
-    // Global Sidelines
-    private static final double FS = -42.0;
-    private static final double BS = 42.0;
-    // Stock NCAA Stuff
-    private static final double NCAA_FH = -10.0;
-    private static final double NCAA_BH = 10.0;
-    // High School
-    private static final double HS_FH = -14.0;
-    private static final double HS_BH = 14.0;
+    private static final double STEP_SIZE_REFERENCE = 8.0;
+    // Sideline distance constants
+    private static final double FRONT_SIDELINE = -42.0;
+    private static final double BACK_SIDELINE = 42.0;
+    // NCAA Hash distances
+    private static final double NCAA_FRONT_HASH = -10.0;
+    private static final double NCAA_BACK_HASH = 10.0;
+    // High School Hash distances
+    private static final double HS_FRONT_HASH = -14.0;
+    private static final double HS_BACK_HASH = 14.0;
+    // Rounding constants
+    private static final double NEAREST_HALF_STEP = 2f;
+    private static final double NEAREST_QUARTER_STEP = 4f;
+    private static final double NEAREST_EIGHTH_STEP = 8f;
+    private static final double NEAREST_SIXTEENTH_STEP = 16f;
+    private static final double NEAREST_THIRTY_SECOND_STEP = 32f;
 
     static double getBS() {
-        return BS;
+        return BACK_SIDELINE;
+    }
+
+    static int getYardline(int progress) {
+        return YARD_LINES[progress];
     }
 
     /**
-     * This method gets the array index of the value you input.
+     * This method takes the yardline given and returns the representation in the
+     * internal coordinate plane, which is where all midsets are calculated
      *
-     * @param value the value of the index you want
-     * @return index of the array
+     * @param value The yardline you want to find
+     * @return double representing the yardline in the coordinate plane
      */
-    private static int getArrayIndex(int value) {
+    private static int findYardline(int value) {
         int k = 0;
-        for (int i = 0; i < Midset.YARDLINES.length; i++) {
-            if (Midset.YARDLINES[i] == value) {
+        for (int i = 0; i < YARD_LINES.length; i++) {
+            if (YARD_LINES[i] == value) {
                 k = i;
                 break;
             }
         }
-        return k;
+        return k * 8;
     }
 
     /**
-     * This method takes the yardline given and returns the representation of that yardline
-     * in the internal coordinate plane, which is where all midsets are calculated.
+     * outputFrontToBack takes a double y and the current Field object and
+     * translates the double y into a formatted String using marching band terms set
+     * by the Field object.
      *
-     * @param value yardline you want to be turned into coordinate
-     * @return double representing the yardline in a coordinate plane
+     * @param frontToBack input double representing the Front-to-Back on the field
+     * @param f           Field object holding the field type and hash type
+     * @return marching band term version of the front-to-back
      */
-    private static double findYardline(int value) {
-        return getArrayIndex(value) * 8;
-    }
-
-    /**
-     * outputFB Takes a double y and two settings types and translates the double y
-     * into the representation format understood by human marchers, using terminology
-     * set by the settings types.
-     *
-     * @param y          input double representing point on field
-     * @param field_type 0 = High School, 1 = NCAA
-     * @param hash_type  0 = Front/Back, 1 = Home/Visitor
-     * @return formatted String
-     */
-    private static String outputFB(double y, int field_type, int hash_type) {
+    private static String outputFrontToBack(double frontToBack, Field f) {
         String output;
-        double fh;
-        double bh;
-        String front;
-        String back;
+        double frontHash;
+        double backHash;
+        String frontHashName;
+        String backHashName;
 
-        // Modify type of field from Settings
-        if (field_type == 0) {
-            fh = HS_FH;
-            bh = HS_BH;
+        // Modify field type from Settings
+        if (f.getFieldType() == 0) {
+            frontHash = HS_FRONT_HASH;
+            backHash = HS_BACK_HASH;
         } else {
-            fh = NCAA_FH;
-            bh = NCAA_BH;
+            frontHash = NCAA_FRONT_HASH;
+            backHash = NCAA_BACK_HASH;
         }
 
-        // Modify type of hash from Settings
-        if (hash_type == 0) {
-            front = FRONT_HASH;
-            back = BACK_HASH;
+        // Modify hash type from Settings
+        if (f.getHashType() == 0) {
+            frontHashName = FRONT_HASH;
+            backHashName = BACK_HASH;
         } else {
-            front = HOME_HASH;
-            back = VISITOR_HASH;
+            frontHashName = HOME_HASH;
+            backHashName = VISITOR_HASH;
         }
 
-        // Middle of the field.
-        if (y == 0) {
-            output = -fh + " behind " + front + " Hash";
+        // Middle of the field
+        if (frontToBack == 0) {
+            output = -frontHash + " behind " + frontHashName + " Hash";
             // return output;
         }
-        // Front half of the field.
-        else if (y < 0) {
-            if (y > fh)
-                output = (-fh + y) + " behind " + front + " Hash";
-            else if (y == fh)
-                output = "On " + front + " Hash";
-            else if (y < fh && y > ((FS + fh) / 2))
-                output = (fh + -y) + " in front of " + front + " Hash";
-            else if (y > FS)
-                output = (-FS + y) + " behind " + front + " Sideline";
-            else if (y == FS)
-                output = "On " + front + " Sideline";
+        // Front half of the field
+        else if (frontToBack < 0) {
+            if (frontToBack > frontHash)
+                output = (-frontHash + frontToBack) + " behind " + frontHashName + " Hash";
+            else if (frontToBack == frontHash)
+                output = "On " + frontHashName + " Hash";
+            else if (frontToBack < frontHash && frontToBack > ((FRONT_SIDELINE + frontHash) / 2))
+                output = (frontHash + -frontToBack) + " in front of " + frontHashName + " Hash";
+            else if (frontToBack > FRONT_SIDELINE)
+                output = (-FRONT_SIDELINE + frontToBack) + " behind " + frontHashName + " Sideline";
+            else if (frontToBack == FRONT_SIDELINE)
+                output = "On " + frontHashName + " Sideline";
             else // -FS + x
-                output = -(y - FS) + " in front of " + front + " Sideline";
+                output = -(frontToBack - FRONT_SIDELINE) + " in front of " + frontHashName + " Sideline";
         }
-        // Back half of the field.
+        // Back half of the field
         else {
-            if (y < bh)
-                output = (bh - y) + " in front of " + back + " Hash";
-            else if (y == bh)
-                output = "On " + back + " Hash";
-            else if (y > bh && y < ((BS + bh) / 2))
-                output = (y - bh) + " behind " + back + " Hash";
-            else if (y < BS)
-                output = (BS - y) + " in front of " + back + " Sideline";
-            else if (y == BS)
-                output = "On " + back + " Sideline";
+            if (frontToBack < backHash)
+                output = (backHash - frontToBack) + " in front of " + backHashName + " Hash";
+            else if (frontToBack == backHash)
+                output = "On " + backHashName + " Hash";
+            else if (frontToBack > backHash && frontToBack < ((BACK_SIDELINE + backHash) / 2))
+                output = (frontToBack - backHash) + " behind " + backHashName + " Hash";
+            else if (frontToBack < BACK_SIDELINE)
+                output = (BACK_SIDELINE - frontToBack) + " in front of " + backHashName + " Sideline";
+            else if (frontToBack == BACK_SIDELINE)
+                output = "On " + backHashName + " Sideline";
             else
-                output = (y - BS) + " behind " + back + " Sideline";
+                output = (frontToBack - BACK_SIDELINE) + " behind " + backHashName + " Sideline";
         }
-
         return output;
     }
 
     /**
-     * outputLR Takes a double x and one setting type and translates the double x
-     * into the representation format understood by human marchers, using terminology
-     * set by the setting type.
+     * outputLeftToRight takes a double x and the current Field object and
+     * translates the double x into a formatted String using marching band terms set
+     * by the Field object.
      *
-     * @param x         double to be converted to text
-     * @param side_type 0 = Side 1/Side 2, 1 = Left/Right
-     * @return Formatted String to be printed to console
+     * @param leftToRight input double representing the left-to-right on the field
+     * @param f           Field object holding the side type
+     * @return marching band term version of the left-to-right
      */
-    private static String outputLR(double x, int side_type) {
+    private static String outputLeftToRight(double leftToRight, Field f) {
         String output;
-        String left;
-        String right;
+        String leftSideName;
+        String rightSideName;
 
         // Set side type from Settings
-        if (side_type == 0) {
-            left = ONE_SIDE;
-            right = TWO_SIDE;
+        if (f.getSideType() == 0) {
+            leftSideName = ONE_SIDE;
+            rightSideName = TWO_SIDE;
         } else {
-            left = LEFT_SIDE;
-            right = RIGHT_SIDE;
+            leftSideName = LEFT_SIDE;
+            rightSideName = RIGHT_SIDE;
         }
 
-
         // 50 Yardline (Middle)
-        if (x == 0.0) {
+        if (leftToRight == 0.0) {
             output = "On 50";
         }
         // Side 2, Right Side
-        else if (x > 0) {
-            int yardline = (int) (x / 8);
-            double step = x % 8;
+        else if (leftToRight > 0) {
+            int yardline = (int) (leftToRight / 8);
+            double step = leftToRight % 8;
             if (step == 0.0) {
-                output = "On " + right + YARDLINES[yardline];
+                output = "On " + rightSideName + YARD_LINES[yardline];
             } else if (step <= 4.0) {
-                output = step + " steps Outside " + right + YARDLINES[yardline];
+                output = step + " steps Outside " + rightSideName + YARD_LINES[yardline];
             } else {
                 step = 8 - step;
-                output = step + " steps Inside " + right + YARDLINES[yardline + 1];
+                output = step + " steps Inside " + rightSideName + YARD_LINES[yardline + 1];
             }
         }
         // Side 1, Left Side
         else {
-            int yardline = (int) (x / 8);
-            double step = x % 8;
+            int yardline = (int) (leftToRight / 8);
+            double step = leftToRight % 8;
             if (step == 0.0) {
-                output = "On " + left + YARDLINES[-yardline];
+                output = "On " + leftSideName + YARD_LINES[-yardline];
             } else if (step >= -4.0) {
-                output = -step + " steps Outside " + left + YARDLINES[-yardline];
+                output = -step + " steps Outside " + leftSideName + YARD_LINES[-yardline];
             } else {
                 step = 8 + step;
-                output = step + " steps Inside " + left + YARDLINES[-yardline + 1];
+                output = step + " steps Inside " + leftSideName + YARD_LINES[-yardline + 1];
             }
         }
         return output;
     }
 
     /**
-     * inputLR translates the input received from the GUI and translates it into a single
-     * double value that the midset system understands. (Left to Right)
+     * inputLeftToRight translates the input from the GUI and translates it into a
+     * double which the system understands.
      *
-     * @param yardline actual integer value of the yardline
-     * @param steps    steps inside or outside
-     * @param side     0-S1, 1-S2
-     * @param IO       0-On, 1-Inside, 2-Outside
-     * @return double equivalent of input left to right coordinate
+     * @param steps      number of steps inside or outside of the yardline
+     * @param onInOutBtn 0 - On, 1 - Inside, 2 - Outside
+     * @param sideBtn    0 - Side 1, 1 - Side 2
+     * @param yardline   actual integer value of the yardline
+     * @return double equivalent of the input left to right coordinate
      */
-    static double inputLR(double steps, int IO, int side, int yardline) {
+    static double inputLeftToRight(double steps, int onInOutBtn, int sideBtn, int yardline) {
         double result = 0;
-        // getYardline(YARDLINES, yardline);
-        switch (IO) {
-            // On Yardline
+
+        switch (onInOutBtn) {
+            // On the Yardline
             case 0:
-                if (side == 0)
+                if (sideBtn == 0)
                     result = -findYardline(yardline);
                 else
                     result = findYardline(yardline);
                 break;
-            // Inside Yardline
+            // Inside the Yardline (towards the 50)
             case 1:
                 if (yardline == 50)
-                    if (side == 0)
+                    if (sideBtn == 0)
                         result = -steps;
                     else
                         result = steps;
-                else if (side == 0)
+                else if (sideBtn == 0)
                     result = -findYardline(yardline) + steps;
                 else
                     result = findYardline(yardline) - steps;
                 break;
-            // Outside Yardline
+            // Outside the Yardline (away from the 50)
             case 2:
                 if (yardline == 50)
-                    if (side == 0)
+                    if (sideBtn == 0)
                         result = -steps;
                     else
                         result = steps;
-                else if (side == 0)
+                else if (sideBtn == 0)
                     result = -findYardline(yardline) - steps;
                 else
                     result = findYardline(yardline) + steps;
                 break;
         }
-        //System.out.println(result);
         return result;
     }
 
     /**
-     * inputFB translates the input received from the GUI and translates it into a single
-     * double value that the midset system understands. (Front to Back)
+     * inputFrontToBack translates the input from GUI to a double understood by the
+     * system.
      *
-     * @param y          steps
-     * @param OBF        0-On, 1-Front, 2-Behind
-     * @param HS         0-FS, 1-FH, 2-BH, 3-BS
-     * @param field_type 0 = High School, 1 = NCAA
+     * @param steps            number of steps away from the hash or sideline
+     * @param onFrontBehindBtn 0 - On, 1 - In Front Of, 2 - Behind
+     * @param hashSidelineBtn  0 - Front Sideline, 1 - Front Hash, 2 - Back Hash, 3 - Back
+     *                         Sideline
+     * @param f                Using to get the field type, 0 - High School, 1 - NCAA
      * @return double equivalent of input front to back coordinate
      */
-    static double inputFB(double y, int OBF, int HS, int field_type) {
+    static double inputFrontToBack(double steps, int onFrontBehindBtn, int hashSidelineBtn, Field f) {
         double result = 0;
-        double fh;
-        double bh;
+        double frontHash;
+        double backHash;
 
-        if (field_type == 0) {
-            fh = HS_FH;
-            bh = HS_BH;
+        // Check the field type, and adjust reference points accordingly
+        if (f.getFieldType() == 0) {
+            frontHash = HS_FRONT_HASH;
+            backHash = HS_BACK_HASH;
         } else {
-            fh = NCAA_FH;
-            bh = NCAA_BH;
+            frontHash = NCAA_FRONT_HASH;
+            backHash = NCAA_BACK_HASH;
         }
-        switch (HS) {
-            // FS
+
+        switch (hashSidelineBtn) {
+            // Front Sideline
             case 0:
-                if (OBF == 0)
-                    result = FS;
-                else if (OBF == 1)
-                    result = FS - y;
-                else
-                    result = FS + y;
+                result = onFrontBehindHelper(steps, onFrontBehindBtn, FRONT_SIDELINE);
                 break;
-            // FH
+            // Front Hash
             case 1:
-                if (OBF == 0)
-                    result = fh;
-                else if (OBF == 1)
-                    result = fh - y;
-                else
-                    result = fh + y;
+                result = onFrontBehindHelper(steps, onFrontBehindBtn, frontHash);
                 break;
-            // BH
+            // Back hash
             case 2:
-                if (OBF == 0)
-                    result = bh;
-                else if (OBF == 1)
-                    result = bh - y;
-                else
-                    result = bh + y;
+                result = onFrontBehindHelper(steps, onFrontBehindBtn, backHash);
                 break;
-            // BS
+            // Back Sideline
             case 3:
-                if (OBF == 0)
-                    result = BS;
-                else if (OBF == 1)
-                    result = BS - y;
-                else
-                    result = BS + y;
+                result = onFrontBehindHelper(steps, onFrontBehindBtn, BACK_SIDELINE);
                 break;
         }
-        //System.out.println(result);
         return result;
     }
 
     /**
-     * This method computes the distance between to MarchingDot objects,
+     * Helps reduce duplicate code in the switch statement
+     *
+     * @param steps number of steps away from hash or sideline
+     * @param onFrontBehindBtn 0 = on, 1 = in front of, 2 = behind
+     * @param hashSidelineReference constant passed in after preferences
+     * @return double version of input
+     */
+    private static double onFrontBehindHelper(double steps, int onFrontBehindBtn, double hashSidelineReference) {
+        if (onFrontBehindBtn == 0) // On
+            return hashSidelineReference;
+        else if (onFrontBehindBtn == 1) // In Front Of
+            return hashSidelineReference - steps;
+        else // Behind
+            return hashSidelineReference + steps;
+    }
+
+    /**
+     * This method computes the distance between to Coordinate objects,
      * using the distance formula for coordinates.
      *
-     * @param start initial MarchingDot
-     * @param end   final MarchingDot
-     * @return distance between the two MarchingDots
+     * @param start initial Coordinate
+     * @param end   final Coordinate
+     * @return distance between the two Coordinates
      */
-    private static double distance(MarchingDot start, MarchingDot end) {
+    private static double distance(Coordinate start, Coordinate end) {
         double startX = start.getLeftToRight();
         double startY = start.getFrontToBack();
         double endX = end.getLeftToRight();
@@ -328,96 +321,116 @@ class Midset {
     }
 
     /**
-     * review takes the input start and end dots and produces a formatted string
-     * to display the data that was entered by the user
+     * review takes the input start and end Coordinates and produces a formatted
+     * String to display the data that was entered by the user
      *
-     * @param start      initial MarchingDot
-     * @param end        final MarchingDot
-     * @param field_type 0 = High School, 1 = NCAA
-     * @param hash_type  0 = Front/Back, 1 = Home/Visitor
-     * @param side_type  0 = Side 1/Side 2, 1 = Left/Right
-     * @return formatted String representing given inputs for both MarchingDots
+     * @param start initial Coordinate
+     * @param end   final Coordinate
+     * @param f     Field object containing field type, hash type, and side type
+     * @return formatted String representing the given inputs for both Coordinates
      */
-    static String review(MarchingDot start, MarchingDot end, int field_type, int hash_type, int side_type) {
-        String output;
-        output = "Start:\n" +
-                outputLR(start.getLeftToRight(), side_type) + "\n" +
-                outputFB(start.getFrontToBack(), field_type, hash_type) + "\n\n" +
-                "End:\n" +
-                outputLR(end.getLeftToRight(), side_type) + "\n" +
-                outputFB(end.getFrontToBack(), field_type, hash_type);
-        return output;
+    static String review(Coordinate start, Coordinate end, Field f) {
+        return "Start:\n" +
+                outputLeftToRight(start.getLeftToRight(), f) + "\n"
+                + outputFrontToBack(start.getFrontToBack(), f) + "\n" +
+                "End:\n"
+                + outputLeftToRight(end.getLeftToRight(), f) + "\n" +
+                outputFrontToBack(end.getFrontToBack(), f);
     }
 
     /**
-     * getMidsetInfo creates a formatted string to display the
-     * start set, end set, mid set, and step size for the move
-     * given by the user.
+     * Simplified version of review and getMidsetInformation. Just prints one
+     * Coordinate rather than the entire formatted string.
      *
-     * @param start       initial MarchingDot
-     * @param end         final MarchingDot
-     * @param counts      number of counts to get from start to end
-     * @param field_type  0 = High School, 1 = NCAA
-     * @param hash_type   0 = Front/Back, 1 = Home/Visitor
-     * @param side_type   0 = Side 1/Side 2, 1 = Left/Right
-     * @param specificity 0 = no rounding, 1 = 1 decimal place, 2 = 2 decimal places, 3 = 3 decimal places
-     * @return formatted String including: start set, end set, mid set, and step size
+     * @param c Coordinate to print in marching band terms
+     * @param f Field to set terms and field type
+     * @return formatted string representing the given Coordinate
      */
-    static String getMidsetInfo(MarchingDot start, MarchingDot end, int counts, int field_type, int hash_type, int side_type, int specificity) {
-        String output;
-        DecimalFormat decimalFormat;
-        double stepsize;
+    static String printCoordinate(Coordinate c, Field f) {
+        return outputLeftToRight(c.getLeftToRight(), f) + " \n" +
+                outputFrontToBack(c.getFrontToBack(), f);
+    }
 
-        double fb = (start.getFrontToBack() + end.getFrontToBack()) / 2;
-        double lr = (start.getLeftToRight() + end.getLeftToRight()) / 2;
+    /**
+     * getMidsetInformation creates a formatted string to display the start set, end
+     * set, mid set, and computed step size for the move entered by the user.
+     *
+     * @param start       initial Coordinate
+     * @param end         final Coordinate
+     * @param counts      number of counts to get from start to end
+     * @param f           Field object containing field, hash, and side types
+     * @param specificity 0 - no rounding, 1 - 1/2, 2 - 1/4, 3 - 1/8, 4 - 1/16, 5 - 1/32
+     * @return formatted string
+     */
+
+    static String getMidsetInformation(Coordinate start, Coordinate end, int counts, Field f, int specificity) {
+        String output;
+        double computedStepSize;
+
+        double frontToBackMiddle = (start.getFrontToBack() + end.getFrontToBack()) / 2;
+        double leftToRightMiddle = (start.getLeftToRight() + end.getLeftToRight()) / 2;
 
         double distance = distance(start, end);
 
         double stepSizeMultiplier = distance / counts;
-        if (stepSizeMultiplier == 0.0) {
-            stepsize = 0.0;
-        } else {
-            stepsize = STEPS / stepSizeMultiplier;
-        }
+        if (stepSizeMultiplier == 0.0)
+            computedStepSize = 0.0;
+        else
+            computedStepSize = STEP_SIZE_REFERENCE / stepSizeMultiplier;
 
+        computedStepSize = specificitySwitcher(specificity, computedStepSize, frontToBackMiddle, leftToRightMiddle);
 
+        output = Midset.review(start, end, f) + "\n" + "Midset:\n" + outputLeftToRight(leftToRightMiddle, f) + "\n"
+                + outputFrontToBack(frontToBackMiddle, f) + "\n\n" + "Step Size:\n" + computedStepSize + " to 5";
+
+        return output;
+    }
+
+    /**
+     * @param specificity       from settings, determines how to round
+     * @param computedStepSize  passed in for rounding
+     * @param frontToBackMiddle passed in for rounding
+     * @param leftToRightMiddle passed in for rounding
+     * @return computed step size
+     */
+    private static double specificitySwitcher(
+            int specificity, double computedStepSize, double frontToBackMiddle,
+            double leftToRightMiddle) {
         switch (specificity) {
-            case 0:
+            case 0: // No Rounding
                 break;
-            case 1:
-                decimalFormat = new DecimalFormat("#.#");
-                stepsize = Double.valueOf(decimalFormat.format(stepsize));
-                fb = Double.valueOf(decimalFormat.format(fb));
-                lr = Double.valueOf(decimalFormat.format(lr));
+            case 1: // Nearest 1/2 Step
+                frontToBackMiddle = midsetRounder(frontToBackMiddle, NEAREST_HALF_STEP);
+                leftToRightMiddle = midsetRounder(leftToRightMiddle, NEAREST_HALF_STEP);
+                computedStepSize = midsetRounder(computedStepSize, NEAREST_HALF_STEP);
                 break;
-            case 2:
-                decimalFormat = new DecimalFormat("#.##");
-                stepsize = Double.valueOf(decimalFormat.format(stepsize));
-                fb = Double.valueOf(decimalFormat.format(fb));
-                lr = Double.valueOf(decimalFormat.format(lr));
+            case 2: // Nearest 1/4 Step
+                frontToBackMiddle = midsetRounder(frontToBackMiddle, NEAREST_QUARTER_STEP);
+                leftToRightMiddle = midsetRounder(leftToRightMiddle, NEAREST_QUARTER_STEP);
+                computedStepSize = midsetRounder(computedStepSize, NEAREST_QUARTER_STEP);
                 break;
-            case 3:
-                decimalFormat = new DecimalFormat("#.###");
-                stepsize = Double.valueOf(decimalFormat.format(stepsize));
-                fb = Double.valueOf(decimalFormat.format(fb));
-                lr = Double.valueOf(decimalFormat.format(lr));
+            case 3: // Nearest 1/8 Step
+                frontToBackMiddle = midsetRounder(frontToBackMiddle, NEAREST_EIGHTH_STEP);
+                leftToRightMiddle = midsetRounder(leftToRightMiddle, NEAREST_EIGHTH_STEP);
+                computedStepSize = midsetRounder(computedStepSize, NEAREST_EIGHTH_STEP);
+                break;
+            case 4: // Nearest 1/16 Step
+                frontToBackMiddle = midsetRounder(frontToBackMiddle, NEAREST_SIXTEENTH_STEP);
+                leftToRightMiddle = midsetRounder(leftToRightMiddle, NEAREST_SIXTEENTH_STEP);
+                computedStepSize = midsetRounder(computedStepSize, NEAREST_SIXTEENTH_STEP);
+                break;
+            case 5: // Nearest 1/32 Step
+                frontToBackMiddle = midsetRounder(frontToBackMiddle, NEAREST_THIRTY_SECOND_STEP);
+                leftToRightMiddle = midsetRounder(leftToRightMiddle, NEAREST_THIRTY_SECOND_STEP);
+                computedStepSize = midsetRounder(computedStepSize, NEAREST_THIRTY_SECOND_STEP);
                 break;
             default:
                 break;
         }
+        return computedStepSize;
+    }
 
-        output = "Start:\n" +
-                outputLR(start.getLeftToRight(), side_type) + "\n" +
-                outputFB(start.getFrontToBack(), field_type, hash_type) + "\n\n" +
-                "End:\n" +
-                outputLR(end.getLeftToRight(), side_type) + "\n" +
-                outputFB(end.getFrontToBack(), field_type, hash_type) + "\n\n" +
-                "Midset:\n" +
-                outputLR(lr, side_type) + "\n" +
-                outputFB(fb, field_type, hash_type) + "\n\n" +
-                "Stepsize:\n" +
-                stepsize + " to 5";
-
-        return output;
+    private static double midsetRounder(double target, double amount) {
+        return Math.round(target * amount) / amount;
     }
 }

@@ -30,10 +30,11 @@ public class ReviewFragment extends Fragment implements View.OnClickListener {
         int fieldType = ((MainActivity) getActivity()).readFieldType();
         int hashType = ((MainActivity) getActivity()).readHashType();
         int sideType = ((MainActivity) getActivity()).readSideType();
-        MarchingDot start = ((MainActivity) getActivity()).getStart_dot();
-        MarchingDot end = ((MainActivity) getActivity()).getEnd_dot();
+        Field f = new Field(fieldType, sideType, hashType);
+        Coordinate start = ((MainActivity) getActivity()).getStartCoordinate();
+        Coordinate end = ((MainActivity) getActivity()).getEndCoordinate();
 
-        review.setText(Midset.review(start, end, fieldType, hashType, sideType));
+        review.setText(Midset.review(start, end, f));
 
         Button b = (Button) v.findViewById(R.id.buttonCompute);
         b.setOnClickListener(this);

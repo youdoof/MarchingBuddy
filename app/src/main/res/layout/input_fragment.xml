@@ -1,0 +1,284 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingLeft="10dp"
+    android:paddingRight="10dp">
+
+    <TextView
+        android:id="@+id/textStartPoint"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_gravity="start"
+        android:text="@string/start_point"
+        android:textAlignment="textStart"
+        android:textSize="24sp" />
+
+    <TextView
+        android:id="@+id/textLeftToRight"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/textStartPoint"
+        android:text="@string/left_to_right"
+        android:textAlignment="center"
+        android:textSize="24sp"
+        android:textStyle="bold" />
+
+    <LinearLayout
+        android:id="@+id/linearLayoutLR1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/textLeftToRight"
+        android:weightSum="3">
+
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1">
+
+            <TextView
+                android:id="@+id/textStepsLR"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:text="@string/steps"
+                android:textSize="18sp" />
+
+            <SeekBar
+                android:id="@+id/seekBarStepsLR"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/textStepsLR"
+                android:paddingTop="4dp" />
+        </RelativeLayout>
+
+        <RadioGroup
+            android:id="@+id/radioGroupOnInOut"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="2"
+            android:orientation="horizontal">
+
+            <RadioButton
+                android:id="@+id/radioOn"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="@string/on"
+                android:textSize="18sp" />
+
+            <RadioButton
+                android:id="@+id/radioInside"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="@string/inside"
+                android:textSize="18sp" />
+
+            <RadioButton
+                android:id="@+id/radioOutside"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="@string/outside"
+                android:textSize="18sp" />
+        </RadioGroup>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/linearLayoutLR2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/linearLayoutLR1"
+        android:layout_marginTop="16dp"
+        android:weightSum="2">
+
+        <RadioGroup
+            android:id="@+id/radioGroupSides"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="horizontal">
+
+            <RadioButton
+                android:id="@+id/radioSide1"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text="@string/side_1"
+                android:textSize="18sp" />
+
+            <RadioButton
+                android:id="@+id/radioSide2"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text="@string/side_2"
+                android:textSize="18sp" />
+        </RadioGroup>
+
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1">
+
+            <TextView
+                android:id="@+id/textYardline"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:text="@string/yardline"
+                android:textSize="18sp" />
+
+            <SeekBar
+                android:id="@+id/seekBarYardline"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/textYardline"
+                android:paddingTop="4dp" />
+        </RelativeLayout>
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/textFrontToBack"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/linearLayoutLR2"
+        android:layout_marginTop="32dp"
+        android:gravity="center"
+        android:text="@string/front_to_back"
+        android:textSize="24sp"
+        android:textStyle="bold" />
+
+    <LinearLayout
+        android:id="@+id/linearLayoutFB1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/textFrontToBack"
+        android:weightSum="3">
+
+        <TextView
+            android:id="@+id/textStepsFB"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/steps"
+            android:textSize="18sp" />
+
+        <RadioGroup
+            android:id="@+id/radioGroupOnFrontBehind"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="2"
+            android:orientation="horizontal">
+
+            <RadioButton
+                android:id="@+id/radioOnHash"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text="@string/on"
+                android:textSize="18sp" />
+
+            <RadioButton
+                android:id="@+id/radioInFront"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text="@string/in_front"
+                android:textSize="18sp" />
+
+            <RadioButton
+                android:id="@+id/radioBehind"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text="@string/behind"
+                android:textSize="18sp" />
+        </RadioGroup>
+
+    </LinearLayout>
+
+    <SeekBar
+        android:id="@+id/seekBarStepsFB"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/linearLayoutFB1"
+        android:paddingTop="4dp" />
+
+    <LinearLayout
+        android:id="@+id/linearLayoutFB2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/seekBarStepsFB"
+        android:layout_marginTop="12dp"
+        android:weightSum="2">
+
+        <RadioGroup
+            android:id="@+id/radioGroupFrontBack"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="horizontal">
+
+            <RadioButton
+                android:id="@+id/radioFront"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/front"
+                android:textSize="18sp" />
+
+            <RadioButton
+                android:id="@+id/radioBack"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/back"
+                android:textSize="18sp" />
+        </RadioGroup>
+
+        <RadioGroup
+            android:id="@+id/radioGroupHashSideline"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="horizontal">
+
+            <RadioButton
+                android:id="@+id/radioHash"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/hash"
+                android:textSize="18sp" />
+
+            <RadioButton
+                android:id="@+id/radioSideline"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/sideline"
+                android:textSize="18sp" />
+        </RadioGroup>
+
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/buttonPart1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/linearLayoutFB2"
+        android:layout_gravity="bottom"
+        android:text="@string/next" />
+
+    <ProgressBar
+        android:id="@+id/progressBar"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="28dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:max="4"
+        android:progress="1" />
+
+</RelativeLayout>
