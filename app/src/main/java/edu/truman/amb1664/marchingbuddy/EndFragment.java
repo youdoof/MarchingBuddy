@@ -187,14 +187,20 @@ public class EndFragment extends Fragment implements View.OnClickListener {
     }
 
     private boolean getStepsLeftRight() {
-        String tempstep = stepslr_edittext.getText().toString();
-        final double step = !tempstep.equals("") ? Double.parseDouble(tempstep) : -1;
-        if (!isValidLRStep(step)) {
-            stepslr_edittext.setError("Must be <= 4");
-            return false;
-        } else {
-            stepsLeftRight = step;
+        String tempStepLR = stepslr_edittext.getText().toString();
+        if (doubleInputRegex(tempStepLR)) {
+            double step = Double.parseDouble(tempStepLR);
+            if (!isValidLRStep(step)) {
+                stepslr_edittext.setError("Must be between 0 and 4.");
+                return false;
+            } else
+                stepsLeftRight = step;
             return true;
+        } else if (on_radiobutton.isChecked()) {
+            return true;
+        } else {
+            stepslr_edittext.setError("Enter a number between 0 and 4.");
+            return false;
         }
     }
 
@@ -236,14 +242,25 @@ public class EndFragment extends Fragment implements View.OnClickListener {
     }
 
     private boolean getStepsFrontBack() {
-        String tempstepfb = stepsfb_edittext.getText().toString();
-        final double stepfb = !tempstepfb.equals("") ? Double.parseDouble(tempstepfb) : -1;
-        if (!isValidFBStep(stepfb)) {
-            stepsfb_edittext.setError("Must be > 0.");
-            return false;
-        } else {
-            stepsFrontBack = stepfb;
+        String tempStepFB = stepsfb_edittext.getText().toString();
+        if (doubleInputRegex(tempStepFB)) {
+            double stepfb = Double.parseDouble(tempStepFB);
+            if (!isValidFBStep(stepfb)) {
+                if (stepfb > getBS()) {
+                    stepsfb_edittext.setError("Must be less than " + getBS() + ".");
+                } else {
+                    stepsfb_edittext.setError("Must be > 0.");
+                }
+                return false;
+            } else {
+                stepsFrontBack = stepfb;
+                return true;
+            }
+        } else if (onhash_radiobutton.isChecked()) {
             return true;
+        } else {
+            stepsfb_edittext.setError("Enter a number > 0.");
+            return false;
         }
     }
 
@@ -288,5 +305,10 @@ public class EndFragment extends Fragment implements View.OnClickListener {
 
     private boolean isValidLRYardline(int x) {
         return x <= 50 && (x % 5 == 0);
+    }
+
+    private boolean doubleInputRegex(String s) {
+        String pattern = "[0-9]*\\.?[0-9]+";
+        return s.matches(pattern);
     }
 }

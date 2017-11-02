@@ -4,11 +4,11 @@
         android:key="pref_key_term_settings"
         android:title="Terminology">
         <ListPreference
-            android:defaultValue="1"
-            android:entries="@array/pref_field_type"
-            android:entryValues="@array/pref_field_type_values"
-            android:key="field_type"
-            android:title="Field Type" />
+            android:defaultValue="0"
+            android:entries="@array/pref_side_type"
+            android:entryValues="@array/pref_side_type_values"
+            android:key="side_type"
+            android:title="Side Names" />
 
         <ListPreference
             android:defaultValue="0"
@@ -18,11 +18,11 @@
             android:title="Hash Names" />
 
         <ListPreference
-            android:defaultValue="0"
-            android:entries="@array/pref_side_type"
-            android:entryValues="@array/pref_side_type_values"
-            android:key="side_type"
-            android:title="Side Names" />
+            android:defaultValue="1"
+            android:entries="@array/pref_field_type"
+            android:entryValues="@array/pref_field_type_values"
+            android:key="field_type"
+            android:title="Field Type" />
     </PreferenceCategory>
     <PreferenceCategory
         android:key="pref_key_specificity_settings"
