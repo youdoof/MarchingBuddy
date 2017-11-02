@@ -66,13 +66,6 @@ public class StartFragment extends Fragment implements View.OnClickListener {
     private RadioGroup groupFrontBack;
     private RadioGroup groupHashSideline;
 
-//    BitSet groupOnInOut = new BitSet(3);
-//    BitSet groupSides = new BitSet(2);
-//    BitSet groupOnFrontBehind = new BitSet(3);
-//    BitSet groupFrontBack = new BitSet(2);
-//    BitSet groupHashSideline = new BitSet(2);
-//    BitSet groupBitSets = new BitSet(5);
-
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -213,6 +206,14 @@ public class StartFragment extends Fragment implements View.OnClickListener {
         }
     }
 
+    /**
+     * intervalCalc produces the value located at the position
+     * of the seek bar's progress
+     *
+     * @param progress    the progress from the seek bar
+     * @param specificity current rounding specificity
+     * @return value represented at the position of the seek bar
+     */
     private double intervalCalc(int progress, int specificity) {
         return (double) progress / (double) specificity;
     }
@@ -221,12 +222,18 @@ public class StartFragment extends Fragment implements View.OnClickListener {
      * Helps setup Left to Right SeekBar
      *
      * @param specificity how specific the sliders will be
-     * @return max for seek bar
+     * @return max for the left to right seekbar
      */
     private int seekBarLRMaxCalc(int specificity) {
         return specificity * 4;
     }
 
+    /**
+     * Helps setup Front to Back SeekBar
+     *
+     * @param specificity how specific the sliders will be
+     * @return max for the front to back seekbar
+     */
     private int seekBarFBMaxCalc(int specificity) {
         return specificity * 16;
     }
@@ -362,16 +369,4 @@ public class StartFragment extends Fragment implements View.OnClickListener {
         } else
             return false;
     }
-
-//    private boolean isValidLRStep(double x) {
-//        return on_radiobutton.isChecked() || x <= 4 && x > 0;
-//    }
-//
-//    private boolean isValidFBStep(double x) {
-//        return onhash_radiobutton.isChecked() || x > 0 && x < getBS();
-//    }
-//
-//    private boolean isValidLRYardline(int x) {
-//        return x <= 50 && (x % 5 == 0);
-//    }
 }

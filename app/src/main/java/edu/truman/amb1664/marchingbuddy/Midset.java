@@ -340,7 +340,8 @@ class Midset {
 
     /**
      * Simplified version of review and getMidsetInformation. Just prints one
-     * Coordinate rather than the entire formatted string.
+     * Coordinate rather than the entire formatted string. Should get used
+     * sometime in the near future
      *
      * @param c Coordinate to print in marching band terms
      * @param f Field to set terms and field type
