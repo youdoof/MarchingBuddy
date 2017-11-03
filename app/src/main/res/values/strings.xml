@@ -1,15 +1,15 @@
 <resources>
     <string name="app_name">Marching Buddy</string>
     <string name="left_to_right">Left To Right</string>
-    <string name="steps">Steps</string>
+    <string name="steps">0.0 Steps</string>
     <string name="on">On</string>
-    <string name="inside">Inside</string>
-    <string name="outside">Outside</string>
+    <string name="inside">In</string>
+    <string name="outside">Out</string>
     <string name="side_1">Side 1</string>
     <string name="side_2">Side 2</string>
     <string name="left">Left</string>
     <string name="right">Right</string>
-    <string name="yardline">Yardline</string>
+    <string name="yardline">50 Yard Line</string>
     <string name="front_to_back">Front To Back</string>
     <string name="in_front">In Front</string>
     <string name="behind">Behind</string>

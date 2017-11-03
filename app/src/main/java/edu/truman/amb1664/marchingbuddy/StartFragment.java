@@ -1,5 +1,6 @@
 package edu.truman.amb1664.marchingbuddy;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -103,6 +104,7 @@ public class StartFragment extends Fragment implements View.OnClickListener {
         final SeekBar stepslr_seekbar = (SeekBar) v.findViewById(R.id.seekBarStepsLR);
         stepslr_seekbar.setMax(seekBarLRMaxCalc(spec));
         stepslr_seekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @SuppressLint("SetTextI18n")
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean b) {
                 stepslr_textview.setText(intervalCalc(progress, spec) + " Steps");
@@ -127,6 +129,7 @@ public class StartFragment extends Fragment implements View.OnClickListener {
         // sets maximum to one less than the length of the YardLines array
         yardline_seekbar.setMax(Midset.YARD_LINES.length - 1);
         yardline_seekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @SuppressLint("SetTextI18n")
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean b) {
                 yardline_textview.setText(Midset.getYardline(progress) + " Yard Line");
@@ -153,6 +156,7 @@ public class StartFragment extends Fragment implements View.OnClickListener {
         // Arbitrarily chosen this number of 32. Might need to revisit this sometime afterwards.
         stepsfb_seekbar.setMax(seekBarFBMaxCalc(spec));
         stepsfb_seekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @SuppressLint("SetTextI18n")
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean b) {
                 stepsfb_textview.setText(intervalCalc(progress, spec) + " Steps");
