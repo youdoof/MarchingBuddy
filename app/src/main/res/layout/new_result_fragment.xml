@@ -2,89 +2,103 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:paddingLeft="10dp"
     android:paddingRight="10dp">
 
     <TextView
-        android:id="@+id/textReviewTitle"
+        android:id="@+id/textResultTitle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:text="@string/review"
+        android:text="@string/result"
         android:textAlignment="center"
         android:textSize="24sp"
         android:textStyle="bold" />
 
     <TextView
-        android:id="@+id/textReviewStartPointTitle"
+        android:id="@+id/textResultStartPointTitle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/textReviewTitle"
+        android:layout_below="@+id/textResultTitle"
         android:text="@string/start_point_review"
         android:textAlignment="center"
         android:textSize="20sp"
         android:textStyle="bold" />
 
     <TextView
-        android:id="@+id/textReviewStartPointContent"
+        android:id="@+id/textResultStartPointContent"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/textReviewStartPointTitle"
+        android:layout_below="@+id/textResultStartPointTitle"
         android:textSize="18sp" />
 
     <TextView
-        android:id="@+id/textReviewEndPointTitle"
+        android:id="@+id/textResultEndPointTitle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/textReviewStartPointContent"
+        android:layout_below="@+id/textResultStartPointContent"
         android:text="@string/end_point_review"
         android:textAlignment="center"
         android:textSize="20sp"
         android:textStyle="bold" />
 
     <TextView
-        android:id="@+id/textReviewEndPointContent"
+        android:id="@+id/textResultEndPointContent"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/textReviewEndPointTitle"
+        android:layout_below="@+id/textResultEndPointTitle"
         android:textSize="18sp" />
 
     <TextView
-        android:id="@+id/textReviewCountsTitle"
+        android:id="@+id/textResultMidpointTitle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/textReviewEndPointContent"
-        android:text="@string/counts_title"
+        android:layout_below="@+id/textResultEndPointContent"
+        android:text="@string/midpoint"
         android:textAlignment="center"
         android:textSize="20sp"
         android:textStyle="bold" />
 
     <TextView
-        android:id="@+id/textCounts"
+        android:id="@+id/textResultMidpointContent"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/textReviewCountsTitle"
-        android:text="@string/_1_counts"
+        android:layout_below="@+id/textResultMidpointTitle"
+        android:textSize="18sp" />
+
+    <TextView
+        android:id="@+id/textResultStepSizeTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/textResultMidpointContent"
+        android:text="@string/step_size"
         android:textAlignment="center"
-        android:textSize="20sp" />
+        android:textSize="20sp"
+        android:textStyle="bold" />
 
-    <SeekBar
-        android:id="@+id/seekBarCounts"
+    <TextView
+        android:id="@+id/textResultStepSizeContent"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/textCounts"
-        android:layout_marginTop="4dp" />
+        android:layout_below="@+id/textResultStepSizeTitle"
+        android:textSize="18sp" />
 
-    <Button
-        android:id="@+id/buttonCalculate"
+    <Switch
+        android:id="@+id/resultSwitchCopy"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_below="@+id/seekBarCounts"
-        android:text="@string/calculate" />
+        android:layout_below="@+id/textResultStepSizeContent"
+        android:text="@string/copy_end_point_to_start_point" />
+
+
+    <Button
+        android:id="@+id/buttonFindNext"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/resultSwitchCopy"
+        android:text="@string/find_next" />
 
     <ProgressBar
         android:id="@+id/progressBar"
@@ -96,6 +110,5 @@
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
         android:max="4"
-        android:progress="3" />
-
+        android:progress="4" />
 </RelativeLayout>

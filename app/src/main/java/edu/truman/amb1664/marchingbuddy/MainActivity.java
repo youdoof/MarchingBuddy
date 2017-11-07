@@ -70,6 +70,11 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        // Sets the default preferences before accessing them the first time.
+        // Used to cause crash on new device install for the first time.
+        PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
+
         setContentView(R.layout.activity_main);
         if (findViewById(R.id.fragment_container) != null) {
             if (savedInstanceState != null) {

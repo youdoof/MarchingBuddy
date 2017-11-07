@@ -7,10 +7,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.EditText;
+import android.widget.SeekBar;
 import android.widget.TextView;
-
-import static java.lang.Integer.parseInt;
 
 /**
  * @author Andrew Brogan
@@ -18,47 +16,66 @@ import static java.lang.Integer.parseInt;
  */
 
 public class ReviewFragment extends Fragment implements View.OnClickListener {
-    private EditText countText;
-    private int counts;
+    // private EditText countText;
+    private int counts = 1;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.review_fragment, container, false);
-        TextView review = (TextView) v.findViewById(R.id.textPreview);
-        countText = (EditText) v.findViewById(R.id.editCounts);
+        View v = inflater.inflate(R.layout.new_review_fragment, container, false);
+        // New Stuff:
+        TextView startPointContent = (TextView) v.findViewById(R.id.textReviewStartPointContent);
+        TextView endPointContent = (TextView) v.findViewById(R.id.textReviewEndPointContent);
+        final TextView countsContent = (TextView) v.findViewById(R.id.textCounts);
         int fieldType = ((MainActivity) getActivity()).readFieldType();
         int hashType = ((MainActivity) getActivity()).readHashType();
         int sideType = ((MainActivity) getActivity()).readSideType();
         Field f = new Field(fieldType, sideType, hashType);
+
         Coordinate start = ((MainActivity) getActivity()).getStartCoordinate();
         Coordinate end = ((MainActivity) getActivity()).getEndCoordinate();
 
-        review.setText(Midset.review(start, end, f));
+        startPointContent.setText(MidSet.printCoordinate(start, f));
+        endPointContent.setText(MidSet.printCoordinate(end, f));
 
-        Button b = (Button) v.findViewById(R.id.buttonCompute);
+        /*
+        Counts SeekBar Setup
+         */
+        final SeekBar seekBarCounts = (SeekBar) v.findViewById(R.id.seekBarCounts);
+        seekBarCounts.setMax(63);
+        seekBarCounts.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean b) {
+                String content;
+                if (progress == 0) {
+                    content = (progress + 1) + " Count";
+                } else {
+                    content = (progress + 1) + " Counts";
+                }
+                countsContent.setText(content);
+                counts = progress;
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+                counts = seekBarCounts.getProgress();
+            }
+        });
+
+        Button b = (Button) v.findViewById(R.id.buttonCalculate);
         b.setOnClickListener(this);
         return v;
     }
 
     @Override
     public void onClick(View view) {
-        boolean cont = true;
-        String tempcount = countText.getText().toString();
-        final int c = !tempcount.equals("") ? parseInt(tempcount) : -1;
-        if (!isValidCount(c)) {
-            countText.setError("Must be > 0!");
-            cont = false;
-        } else
-            counts = c;
-
-        if (cont) {
-            ((MainActivity) getActivity()).setCounts(counts);
-            ((MainActivity) getActivity()).replaceFragment(4);
-        }
+        ((MainActivity) getActivity()).setCounts(counts);
+        ((MainActivity) getActivity()).replaceFragment(4);
     }
 
-    private boolean isValidCount(int c) {
-        return c > 0;
-    }
 }

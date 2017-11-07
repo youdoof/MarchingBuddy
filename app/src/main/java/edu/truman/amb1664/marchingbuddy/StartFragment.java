@@ -1,10 +1,8 @@
 package edu.truman.amb1664.marchingbuddy;
 
-import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,8 +14,8 @@ import android.widget.TextView;
 
 import java.util.BitSet;
 
-import static edu.truman.amb1664.marchingbuddy.Midset.inputFrontToBack;
-import static edu.truman.amb1664.marchingbuddy.Midset.inputLeftToRight;
+import static edu.truman.amb1664.marchingbuddy.MidSet.inputFrontToBack;
+import static edu.truman.amb1664.marchingbuddy.MidSet.inputLeftToRight;
 
 /**
  * @author Andrew Brogan
@@ -29,70 +27,73 @@ public class StartFragment extends Fragment implements View.OnClickListener {
     private double stepsLeftRight;
     private int onInOut;
     private int sideOneSideTwo;
-    private int yardlineNumber;
+    private int yardLineNumber;
 
     // Front to Back variables
     private double stepsFrontBack;
     private int onFrontBehind;
     private int hashSideline;
 
-    // UI Overhaul 11/1/2017
-    // Switching to using SeekBars
+    // TextViews which are updated by seek bars
     private TextView stepslr_textview;
     private TextView yardline_textview;
     private TextView stepsfb_textview;
-    //private SeekBar stepslr_seekbar;
-    //private SeekBar yardline_seekbar;
-    //private SeekBar stepsfb_seekbar;
 
-    //    private EditText yardline_edittext;
-//    private EditText stepsfb_edittext;
-//    private EditText stepslr_edittext;
-    private RadioButton s1_radiobutton;
-    private RadioButton s2_radiobutton;
+    // Radio Group On In Out
+    private RadioGroup groupOnInOut;
     private RadioButton on_radiobutton;
     private RadioButton in_radiobutton;
     private RadioButton out_radiobutton;
+
+    // Radio Group Sides
+    private RadioGroup groupSides;
+    private RadioButton s1_radiobutton;
+    private RadioButton s2_radiobutton;
+
+    // Radio Group On Front Behind
+    private RadioGroup groupOnFrontBehind;
     private RadioButton onhash_radiobutton;
     private RadioButton infront_radiobutton;
     private RadioButton behind_radiobutton;
+
+    // Radio Group Front Back
+    private RadioGroup groupFrontBack;
     private RadioButton front_radiobutton;
     private RadioButton back_radiobutton;
+
+    // Radio Group Hash Sideline
+    private RadioGroup groupHashSideline;
     private RadioButton hash_radiobutton;
     private RadioButton sideline_radiobutton;
-
-    private RadioGroup groupOnInOut;
-    private RadioGroup groupSides;
-    private RadioGroup groupOnFrontBehind;
-    private RadioGroup groupFrontBack;
-    private RadioGroup groupHashSideline;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.input_fragment, container, false);
         stepslr_textview = (TextView) v.findViewById(R.id.textStepsLR);
+        groupOnInOut = (RadioGroup) v.findViewById(R.id.radioGroupOnInOut);
         on_radiobutton = (RadioButton) v.findViewById(R.id.radioOn);
         in_radiobutton = (RadioButton) v.findViewById(R.id.radioInside);
         out_radiobutton = (RadioButton) v.findViewById(R.id.radioOutside);
+        groupSides = (RadioGroup) v.findViewById(R.id.radioGroupSides);
         s1_radiobutton = (RadioButton) v.findViewById(R.id.radioSide1);
         s2_radiobutton = (RadioButton) v.findViewById(R.id.radioSide2);
         yardline_textview = (TextView) v.findViewById(R.id.textYardline);
 
         stepsfb_textview = (TextView) v.findViewById(R.id.textStepsFB);
+        groupOnFrontBehind = (RadioGroup) v.findViewById(R.id.radioGroupOnFrontBehind);
         onhash_radiobutton = (RadioButton) v.findViewById(R.id.radioOnHash);
         infront_radiobutton = (RadioButton) v.findViewById(R.id.radioInFront);
         behind_radiobutton = (RadioButton) v.findViewById(R.id.radioBehind);
+        groupFrontBack = (RadioGroup) v.findViewById(R.id.radioGroupFrontBack);
         front_radiobutton = (RadioButton) v.findViewById(R.id.radioFront);
         back_radiobutton = (RadioButton) v.findViewById(R.id.radioBack);
+        groupHashSideline = (RadioGroup) v.findViewById(R.id.radioGroupHashSideline);
         hash_radiobutton = (RadioButton) v.findViewById(R.id.radioHash);
         sideline_radiobutton = (RadioButton) v.findViewById(R.id.radioSideline);
 
-        groupOnInOut = (RadioGroup) v.findViewById(R.id.radioGroupOnInOut);
-        groupSides = (RadioGroup) v.findViewById(R.id.radioGroupSides);
-        groupOnFrontBehind = (RadioGroup) v.findViewById(R.id.radioGroupOnFrontBehind);
-        groupFrontBack = (RadioGroup) v.findViewById(R.id.radioGroupFrontBack);
-        groupHashSideline = (RadioGroup) v.findViewById(R.id.radioGroupHashSideline);
+        TextView startFragmentText = (TextView) v.findViewById(R.id.textPointTitle);
+        startFragmentText.setText(getResources().getString(R.string.start_point));
 
         // Final specificity grab from preferences to get to rounding
         final int spec = ((MainActivity) getActivity()).getConvertedSpecificity();
@@ -104,10 +105,10 @@ public class StartFragment extends Fragment implements View.OnClickListener {
         final SeekBar stepslr_seekbar = (SeekBar) v.findViewById(R.id.seekBarStepsLR);
         stepslr_seekbar.setMax(seekBarLRMaxCalc(spec));
         stepslr_seekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-            @SuppressLint("SetTextI18n")
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean b) {
-                stepslr_textview.setText(intervalCalc(progress, spec) + " Steps");
+                String content = intervalCalc(progress, spec) + " Steps";
+                stepslr_textview.setText(content);
             }
 
             @Override
@@ -127,13 +128,12 @@ public class StartFragment extends Fragment implements View.OnClickListener {
          */
         final SeekBar yardline_seekbar = (SeekBar) v.findViewById(R.id.seekBarYardline);
         // sets maximum to one less than the length of the YardLines array
-        yardline_seekbar.setMax(Midset.YARD_LINES.length - 1);
+        yardline_seekbar.setMax(MidSet.YARD_LINES.length - 1);
         yardline_seekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-            @SuppressLint("SetTextI18n")
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean b) {
-                yardline_textview.setText(Midset.getYardline(progress) + " Yard Line");
-                Log.d("Yard Line: " + Midset.getYardline(progress), "Progress: " + progress);
+                String content = MidSet.getYardLine(progress) + " Yard Line";
+                yardline_textview.setText(content);
             }
 
             @Override
@@ -156,10 +156,10 @@ public class StartFragment extends Fragment implements View.OnClickListener {
         // Arbitrarily chosen this number of 32. Might need to revisit this sometime afterwards.
         stepsfb_seekbar.setMax(seekBarFBMaxCalc(spec));
         stepsfb_seekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-            @SuppressLint("SetTextI18n")
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean b) {
-                stepsfb_textview.setText(intervalCalc(progress, spec) + " Steps");
+                String content = intervalCalc(progress, spec) + " Steps";
+                stepsfb_textview.setText(content);
             }
 
             @Override
@@ -202,9 +202,9 @@ public class StartFragment extends Fragment implements View.OnClickListener {
         checkInputErrorAgain();
 
         if (checkCompletion()) {
-            Coordinate start = new Coordinate(
-                    inputLeftToRight(stepsLeftRight, onInOut, sideOneSideTwo, yardlineNumber),
-                    inputFrontToBack(stepsFrontBack, onFrontBehind, hashSideline, f));
+            double leftToRight = inputLeftToRight(stepsLeftRight, onInOut, sideOneSideTwo, yardLineNumber);
+            double frontToBack = inputFrontToBack(stepsFrontBack, onFrontBehind, hashSideline, f);
+            Coordinate start = new Coordinate(leftToRight, frontToBack);
             ((MainActivity) getActivity()).setStartCoordinate(start);
             ((MainActivity) getActivity()).replaceFragment(2);
         }
@@ -293,7 +293,7 @@ public class StartFragment extends Fragment implements View.OnClickListener {
         complete.set(0, getStepsLeftRight());
         complete.set(1, getOnInOut());
         complete.set(2, getSideOneSideTwo());
-        complete.set(3, getYardlineNumber());
+        complete.set(3, getYardLineNumber());
         complete.set(4, getStepsFrontBack());
         complete.set(5, getOnFrontBehind());
         complete.set(6, getHashSideline());
@@ -303,7 +303,7 @@ public class StartFragment extends Fragment implements View.OnClickListener {
     private boolean getStepsLeftRight() {
         SeekBar seekBar = (SeekBar) getView().findViewById(R.id.seekBarStepsLR);
         stepsLeftRight = intervalCalc(seekBar.getProgress(), ((MainActivity) getActivity()).getConvertedSpecificity());
-            return true;
+        return true;
     }
 
     private boolean getOnInOut() {
@@ -331,9 +331,9 @@ public class StartFragment extends Fragment implements View.OnClickListener {
             return false;
     }
 
-    private boolean getYardlineNumber() {
+    private boolean getYardLineNumber() {
         SeekBar seekBar = (SeekBar) getView().findViewById(R.id.seekBarYardline);
-        yardlineNumber = Midset.getYardline(seekBar.getProgress());
+        yardLineNumber = MidSet.getYardLine(seekBar.getProgress());
         return true;
     }
 

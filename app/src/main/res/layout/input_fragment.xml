@@ -6,14 +6,13 @@
     android:paddingRight="10dp">
 
     <TextView
-        android:id="@+id/textStartPoint"
+        android:id="@+id/textPointTitle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
         android:layout_gravity="start"
-        android:text="@string/start_point"
         android:textAlignment="textStart"
         android:textSize="24sp" />
 
@@ -21,7 +20,7 @@
         android:id="@+id/textLeftToRight"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/textStartPoint"
+        android:layout_below="@+id/textPointTitle"
         android:text="@string/left_to_right"
         android:textAlignment="center"
         android:textSize="24sp"

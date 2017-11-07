@@ -1,14 +1,14 @@
 package edu.truman.amb1664.marchingbuddy;
 
 /**
- * Midset is a helper class that has the methods to
- * compute the midset and step size for each set.
+ * MidSet is a helper class that has the methods to
+ * compute the mid set and step size for each set.
  *
  * @author Andrew Brogan
  * @since 12/18/16
  */
-class Midset {
-    // Yardline Constants
+class MidSet {
+    // Yard Line Constants
     static final int[] YARD_LINES = {50, 45, 40, 35, 30, 25, 20, 15, 10, 5, 0};
     // Hash Type Constants
     private static final String FRONT_HASH = "Front";
@@ -20,7 +20,7 @@ class Midset {
     private static final String TWO_SIDE = "Side 2 ";
     private static final String LEFT_SIDE = "Left ";
     private static final String RIGHT_SIDE = "Right ";
-    // Stepsize Constant -- 8 to 5
+    // Step Size Constant -- 8 to 5
     private static final double STEP_SIZE_REFERENCE = 8.0;
     // Sideline distance constants
     private static final double FRONT_SIDELINE = -42.0;
@@ -42,18 +42,18 @@ class Midset {
         return BACK_SIDELINE;
     }
 
-    static int getYardline(int progress) {
+    static int getYardLine(int progress) {
         return YARD_LINES[progress];
     }
 
     /**
-     * This method takes the yardline given and returns the representation in the
-     * internal coordinate plane, which is where all midsets are calculated
+     * This method takes the yard line given and returns the representation in the
+     * internal coordinate plane, which is where all mid sets are calculated
      *
-     * @param value The yardline you want to find
-     * @return double representing the yardline in the coordinate plane
+     * @param value The yard line you want to find
+     * @return double representing the yard line in the coordinate plane
      */
-    private static int findYardline(int value) {
+    private static int findYardLine(int value) {
         int k = 0;
         for (int i = 0; i < YARD_LINES.length; i++) {
             if (YARD_LINES[i] == value) {
@@ -159,34 +159,34 @@ class Midset {
             rightSideName = RIGHT_SIDE;
         }
 
-        // 50 Yardline (Middle)
+        // 50 Yard Line (Middle)
         if (leftToRight == 0.0) {
             output = "On 50";
         }
         // Side 2, Right Side
         else if (leftToRight > 0) {
-            int yardline = (int) (leftToRight / 8);
+            int yardLine = (int) (leftToRight / 8);
             double step = leftToRight % 8;
             if (step == 0.0) {
-                output = "On " + rightSideName + YARD_LINES[yardline];
+                output = "On " + rightSideName + YARD_LINES[yardLine];
             } else if (step <= 4.0) {
-                output = step + " steps Outside " + rightSideName + YARD_LINES[yardline];
+                output = step + " steps Outside " + rightSideName + YARD_LINES[yardLine];
             } else {
                 step = 8 - step;
-                output = step + " steps Inside " + rightSideName + YARD_LINES[yardline + 1];
+                output = step + " steps Inside " + rightSideName + YARD_LINES[yardLine + 1];
             }
         }
         // Side 1, Left Side
         else {
-            int yardline = (int) (leftToRight / 8);
+            int yardLine = (int) (leftToRight / 8);
             double step = leftToRight % 8;
             if (step == 0.0) {
-                output = "On " + leftSideName + YARD_LINES[-yardline];
+                output = "On " + leftSideName + YARD_LINES[-yardLine];
             } else if (step >= -4.0) {
-                output = -step + " steps Outside " + leftSideName + YARD_LINES[-yardline];
+                output = -step + " steps Outside " + leftSideName + YARD_LINES[-yardLine];
             } else {
                 step = 8 + step;
-                output = step + " steps Inside " + leftSideName + YARD_LINES[-yardline + 1];
+                output = step + " steps Inside " + leftSideName + YARD_LINES[-yardLine + 1];
             }
         }
         return output;
@@ -196,24 +196,24 @@ class Midset {
      * inputLeftToRight translates the input from the GUI and translates it into a
      * double which the system understands.
      *
-     * @param steps      number of steps inside or outside of the yardline
+     * @param steps      number of steps inside or outside of the yard line
      * @param onInOutBtn 0 - On, 1 - Inside, 2 - Outside
      * @param sideBtn    0 - Side 1, 1 - Side 2
-     * @param yardline   actual integer value of the yardline
+     * @param yardline   actual integer value of the yard line
      * @return double equivalent of the input left to right coordinate
      */
     static double inputLeftToRight(double steps, int onInOutBtn, int sideBtn, int yardline) {
         double result = 0;
 
         switch (onInOutBtn) {
-            // On the Yardline
+            // On the Yard Line
             case 0:
                 if (sideBtn == 0)
-                    result = -findYardline(yardline);
+                    result = -findYardLine(yardline);
                 else
-                    result = findYardline(yardline);
+                    result = findYardLine(yardline);
                 break;
-            // Inside the Yardline (towards the 50)
+            // Inside the Yard Line (towards the 50)
             case 1:
                 if (yardline == 50)
                     if (sideBtn == 0)
@@ -221,11 +221,11 @@ class Midset {
                     else
                         result = steps;
                 else if (sideBtn == 0)
-                    result = -findYardline(yardline) + steps;
+                    result = -findYardLine(yardline) + steps;
                 else
-                    result = findYardline(yardline) - steps;
+                    result = findYardLine(yardline) - steps;
                 break;
-            // Outside the Yardline (away from the 50)
+            // Outside the Yard Line (away from the 50)
             case 2:
                 if (yardline == 50)
                     if (sideBtn == 0)
@@ -233,9 +233,9 @@ class Midset {
                     else
                         result = steps;
                 else if (sideBtn == 0)
-                    result = -findYardline(yardline) - steps;
+                    result = -findYardLine(yardline) - steps;
                 else
-                    result = findYardline(yardline) + steps;
+                    result = findYardLine(yardline) + steps;
                 break;
         }
         return result;
@@ -290,8 +290,8 @@ class Midset {
     /**
      * Helps reduce duplicate code in the switch statement
      *
-     * @param steps number of steps away from hash or sideline
-     * @param onFrontBehindBtn 0 = on, 1 = in front of, 2 = behind
+     * @param steps                 number of steps away from hash or sideline
+     * @param onFrontBehindBtn      0 = on, 1 = in front of, 2 = behind
      * @param hashSidelineReference constant passed in after preferences
      * @return double version of input
      */
@@ -321,25 +321,7 @@ class Midset {
     }
 
     /**
-     * review takes the input start and end Coordinates and produces a formatted
-     * String to display the data that was entered by the user
-     *
-     * @param start initial Coordinate
-     * @param end   final Coordinate
-     * @param f     Field object containing field type, hash type, and side type
-     * @return formatted String representing the given inputs for both Coordinates
-     */
-    static String review(Coordinate start, Coordinate end, Field f) {
-        return "Start:\n" +
-                outputLeftToRight(start.getLeftToRight(), f) + "\n"
-                + outputFrontToBack(start.getFrontToBack(), f) + "\n" +
-                "End:\n"
-                + outputLeftToRight(end.getLeftToRight(), f) + "\n" +
-                outputFrontToBack(end.getFrontToBack(), f);
-    }
-
-    /**
-     * Simplified version of review and getMidsetInformation. Just prints one
+     * Simplified version of review and getMidSsetInformation. Just prints one
      * Coordinate rather than the entire formatted string. Should get used
      * sometime in the near future
      *
@@ -353,85 +335,69 @@ class Midset {
     }
 
     /**
-     * getMidsetInformation creates a formatted string to display the start set, end
-     * set, mid set, and computed step size for the move entered by the user.
+     * getMidSetCoordinate calculates the mid set and returns a new coordinate representing
+     * the calculated mid set
      *
-     * @param start       initial Coordinate
-     * @param end         final Coordinate
-     * @param counts      number of counts to get from start to end
-     * @param f           Field object containing field, hash, and side types
-     * @param specificity 0 - no rounding, 1 - 1/2, 2 - 1/4, 3 - 1/8, 4 - 1/16, 5 - 1/32
-     * @return formatted string
+     * @param start coordinate starting from
+     * @param end coordinate going to
+     * @param specificity rounding from settings
+     * @return new coordinate object representing calculated mid set
      */
+    static Coordinate getMidSetCoordinate(Coordinate start, Coordinate end, int specificity) {
 
-    static String getMidsetInformation(Coordinate start, Coordinate end, int counts, Field f, int specificity) {
-        String output;
-        double computedStepSize;
-
-        double frontToBackMiddle = (start.getFrontToBack() + end.getFrontToBack()) / 2;
-        double leftToRightMiddle = (start.getLeftToRight() + end.getLeftToRight()) / 2;
-
-        double distance = distance(start, end);
-
-        double stepSizeMultiplier = distance / counts;
-        if (stepSizeMultiplier == 0.0)
-            computedStepSize = 0.0;
-        else
-            computedStepSize = STEP_SIZE_REFERENCE / stepSizeMultiplier;
-
-        computedStepSize = specificitySwitcher(specificity, computedStepSize, frontToBackMiddle, leftToRightMiddle);
-
-        output = Midset.review(start, end, f) + "\n" + "Midset:\n" + outputLeftToRight(leftToRightMiddle, f) + "\n"
-                + outputFrontToBack(frontToBackMiddle, f) + "\n\n" + "Step Size:\n" + computedStepSize + " to 5";
-
-        return output;
+        double leftToRightMiddle = specificitySwitcher(specificity, start.getLeftToRight() + end.getLeftToRight()) / 2;
+        double frontToBackMiddle = specificitySwitcher(specificity, start.getFrontToBack() + end.getFrontToBack()) / 2;
+        return new Coordinate(leftToRightMiddle, frontToBackMiddle);
     }
 
     /**
-     * @param specificity       from settings, determines how to round
-     * @param computedStepSize  passed in for rounding
-     * @param frontToBackMiddle passed in for rounding
-     * @param leftToRightMiddle passed in for rounding
-     * @return computed step size
+     * getStepSize calculates the step size relative to the distance covered
+     * from the two coordinates fed into the function
+     *
+     * @param start       coordinate starting from
+     * @param end         coordinate going to
+     * @param specificity rounding from settings
+     * @param counts      number of counts the move was from start to end
+     * @return String containing the step size formatted for humans to read
      */
-    private static double specificitySwitcher(
-            int specificity, double computedStepSize, double frontToBackMiddle,
-            double leftToRightMiddle) {
+    static String getStepSize(Coordinate start, Coordinate end, int specificity, int counts) {
+        double computedStepSize;
+        double distance = distance(start, end);
+        double stepSizeMultiplier = distance / counts;
+        if (stepSizeMultiplier == 0.0) {
+            computedStepSize = 0.0;
+        } else {
+            computedStepSize = specificitySwitcher(specificity, STEP_SIZE_REFERENCE / stepSizeMultiplier);
+        }
+        return "Step Size: " + computedStepSize + " to 5";
+    }
+
+    private static double specificitySwitcher(int specificity, double target) {
         switch (specificity) {
             case 0: // No Rounding
                 break;
             case 1: // Nearest 1/2 Step
-                frontToBackMiddle = midsetRounder(frontToBackMiddle, NEAREST_HALF_STEP);
-                leftToRightMiddle = midsetRounder(leftToRightMiddle, NEAREST_HALF_STEP);
-                computedStepSize = midsetRounder(computedStepSize, NEAREST_HALF_STEP);
+                target = midSetRounder(target, NEAREST_HALF_STEP);
                 break;
             case 2: // Nearest 1/4 Step
-                frontToBackMiddle = midsetRounder(frontToBackMiddle, NEAREST_QUARTER_STEP);
-                leftToRightMiddle = midsetRounder(leftToRightMiddle, NEAREST_QUARTER_STEP);
-                computedStepSize = midsetRounder(computedStepSize, NEAREST_QUARTER_STEP);
+                target = midSetRounder(target, NEAREST_QUARTER_STEP);
                 break;
             case 3: // Nearest 1/8 Step
-                frontToBackMiddle = midsetRounder(frontToBackMiddle, NEAREST_EIGHTH_STEP);
-                leftToRightMiddle = midsetRounder(leftToRightMiddle, NEAREST_EIGHTH_STEP);
-                computedStepSize = midsetRounder(computedStepSize, NEAREST_EIGHTH_STEP);
+                target = midSetRounder(target, NEAREST_EIGHTH_STEP);
                 break;
             case 4: // Nearest 1/16 Step
-                frontToBackMiddle = midsetRounder(frontToBackMiddle, NEAREST_SIXTEENTH_STEP);
-                leftToRightMiddle = midsetRounder(leftToRightMiddle, NEAREST_SIXTEENTH_STEP);
-                computedStepSize = midsetRounder(computedStepSize, NEAREST_SIXTEENTH_STEP);
+                target = midSetRounder(target, NEAREST_SIXTEENTH_STEP);
                 break;
             case 5: // Nearest 1/32 Step
-                frontToBackMiddle = midsetRounder(frontToBackMiddle, NEAREST_THIRTY_SECOND_STEP);
-                leftToRightMiddle = midsetRounder(leftToRightMiddle, NEAREST_THIRTY_SECOND_STEP);
-                computedStepSize = midsetRounder(computedStepSize, NEAREST_THIRTY_SECOND_STEP);
+                target = midSetRounder(target, NEAREST_THIRTY_SECOND_STEP);
                 break;
             default:
                 break;
         }
-        return computedStepSize;
+        return target;
     }
 
-    private static double midsetRounder(double target, double amount) {
+    private static double midSetRounder(double target, double amount) {
         return Math.round(target * amount) / amount;
     }
 }
