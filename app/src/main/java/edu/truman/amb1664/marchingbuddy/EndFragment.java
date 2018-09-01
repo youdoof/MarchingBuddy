@@ -13,6 +13,9 @@ import android.widget.RadioGroup;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+
 import java.util.BitSet;
 
 import static edu.truman.amb1664.marchingbuddy.MidSet.inputFrontToBack;
@@ -103,6 +106,11 @@ public class EndFragment extends Fragment implements View.OnClickListener {
 
         // Final specificity grab from preferences to get to rounding
         final int spec = ((MainActivity) getActivity()).getConvertedSpecificity();
+
+        // AdView Setup
+        AdView adView = (AdView) v.findViewById(R.id.inputAdView);
+        AdRequest adRequest = new AdRequest.Builder().addTestDevice(AdRequest.DEVICE_ID_EMULATOR).build();
+        adView.loadAd(adRequest);
 
         /*
          * Left To Right SeekBar Setup

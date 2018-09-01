@@ -1,4 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!-- Fragment Radio Button -->
     <dimen name="radio_button_height">32dp</dimen>
+    <dimen name="radio_group_padding_small">8dp</dimen>
+    <dimen name="radio_button_margin">3dp</dimen>
+    <!-- Fragment Text Sizes -->
+    <dimen name="fragment_title_text">22sp</dimen>
+    <dimen name="fragment_header_text">19sp</dimen>
+    <dimen name="fragment_value_text">16sp</dimen>
+    <dimen name="fragment_button_text">16sp</dimen>
+    <!-- Fragment Margin -->
+    <dimen name="fragment_margin_master">10dp</dimen>
+    <!-- Fragment Progress Bar -->
+    <dimen name="fragment_progress_margin">10dp</dimen>
 </resources>

@@ -2,8 +2,8 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingLeft="10dp"
-    android:paddingRight="10dp">
+    android:paddingLeft="@dimen/fragment_margin_master"
+    android:paddingRight="@dimen/fragment_margin_master">
 
     <TextView
         android:id="@+id/textResultTitle"
@@ -12,7 +12,7 @@
         android:layout_alignParentTop="true"
         android:text="@string/result"
         android:textAlignment="center"
-        android:textSize="24sp"
+        android:textSize="@dimen/fragment_title_text"
         android:textStyle="bold" />
 
     <TextView
@@ -22,7 +22,7 @@
         android:layout_below="@+id/textResultTitle"
         android:text="@string/start_point_review"
         android:textAlignment="center"
-        android:textSize="20sp"
+        android:textSize="@dimen/fragment_header_text"
         android:textStyle="bold" />
 
     <TextView
@@ -30,7 +30,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/textResultStartPointTitle"
-        android:textSize="18sp" />
+        android:textSize="@dimen/fragment_value_text" />
 
     <TextView
         android:id="@+id/textResultEndPointTitle"
@@ -39,7 +39,7 @@
         android:layout_below="@+id/textResultStartPointContent"
         android:text="@string/end_point_review"
         android:textAlignment="center"
-        android:textSize="20sp"
+        android:textSize="@dimen/fragment_header_text"
         android:textStyle="bold" />
 
     <TextView
@@ -47,7 +47,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/textResultEndPointTitle"
-        android:textSize="18sp" />
+        android:textSize="@dimen/fragment_value_text" />
 
     <TextView
         android:id="@+id/textResultMidpointTitle"
@@ -56,7 +56,7 @@
         android:layout_below="@+id/textResultEndPointContent"
         android:text="@string/midpoint"
         android:textAlignment="center"
-        android:textSize="20sp"
+        android:textSize="@dimen/fragment_header_text"
         android:textStyle="bold" />
 
     <TextView
@@ -64,7 +64,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/textResultMidpointTitle"
-        android:textSize="18sp" />
+        android:textSize="@dimen/fragment_value_text" />
 
     <TextView
         android:id="@+id/textResultStepSizeTitle"
@@ -73,7 +73,7 @@
         android:layout_below="@+id/textResultMidpointContent"
         android:text="@string/step_size"
         android:textAlignment="center"
-        android:textSize="20sp"
+        android:textSize="@dimen/fragment_header_text"
         android:textStyle="bold" />
 
     <TextView
@@ -81,7 +81,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/textResultStepSizeTitle"
-        android:textSize="18sp" />
+        android:textSize="@dimen/fragment_value_text" />
 
     <Switch
         android:id="@+id/resultSwitchCopy"
@@ -90,7 +90,8 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_below="@+id/textResultStepSizeContent"
-        android:text="@string/copy_end_point_to_start_point" />
+        android:text="@string/copy_end_point_to_start_point"
+        android:textSize="@dimen/fragment_value_text" />
 
 
     <Button
@@ -98,17 +99,26 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/resultSwitchCopy"
-        android:text="@string/find_next" />
+        android:text="@string/find_next"
+        android:textSize="@dimen/fragment_button_text" />
 
     <ProgressBar
         android:id="@+id/progressBar"
         style="?android:attr/progressBarStyleHorizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_marginBottom="28dp"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
+        android:layout_above="@+id/resultAdView"
+        android:layout_marginLeft="@dimen/fragment_progress_margin"
+        android:layout_marginRight="@dimen/fragment_progress_margin"
         android:max="4"
         android:progress="4" />
+
+    <com.google.android.gms.ads.AdView xmlns:ads="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/resultAdView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        ads:adSize="BANNER"
+        ads:adUnitId="ca-app-pub-3940256099942544/6300978111" />
 </RelativeLayout>

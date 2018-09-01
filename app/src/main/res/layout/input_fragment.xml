@@ -2,8 +2,8 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingLeft="10dp"
-    android:paddingRight="10dp">
+    android:paddingLeft="@dimen/fragment_margin_master"
+    android:paddingRight="@dimen/fragment_margin_master">
 
     <TextView
         android:id="@+id/textPointTitle"
@@ -14,7 +14,7 @@
         android:layout_alignParentTop="true"
         android:layout_gravity="start"
         android:textAlignment="textStart"
-        android:textSize="24sp" />
+        android:textSize="@dimen/fragment_title_text" />
 
     <TextView
         android:id="@+id/textLeftToRight"
@@ -23,7 +23,7 @@
         android:layout_below="@+id/textPointTitle"
         android:text="@string/left_to_right"
         android:textAlignment="center"
-        android:textSize="24sp"
+        android:textSize="@dimen/fragment_header_text"
         android:textStyle="bold" />
 
     <LinearLayout
@@ -40,7 +40,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="3"
             android:text="@string/steps"
-            android:textSize="18sp" />
+            android:textSize="@dimen/fragment_value_text" />
 
         <RadioGroup
             android:id="@+id/radioGroupOnInOut"
@@ -58,18 +58,20 @@
                 android:button="@android:color/transparent"
                 android:text="@string/on"
                 android:textAlignment="center"
-                android:textSize="18sp" />
+                android:textSize="@dimen/fragment_value_text" />
 
             <RadioButton
                 android:id="@+id/radioInside"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
+                android:layout_marginLeft="@dimen/radio_button_margin"
+                android:layout_marginRight="@dimen/radio_button_margin"
                 android:layout_weight="1"
                 android:background="@drawable/radio_button_background"
                 android:button="@android:color/transparent"
                 android:text="@string/inside"
                 android:textAlignment="center"
-                android:textSize="18sp" />
+                android:textSize="@dimen/fragment_value_text" />
 
             <RadioButton
                 android:id="@+id/radioOutside"
@@ -80,7 +82,7 @@
                 android:button="@android:color/transparent"
                 android:text="@string/outside"
                 android:textAlignment="center"
-                android:textSize="18sp" />
+                android:textSize="@dimen/fragment_value_text" />
         </RadioGroup>
 
         <TextView
@@ -90,7 +92,7 @@
             android:layout_weight="3"
             android:padding="4dp"
             android:text="@string/yardline"
-            android:textSize="18sp" />
+            android:textSize="@dimen/fragment_value_text" />
 
     </LinearLayout>
 
@@ -122,7 +124,7 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/radio_button_height"
         android:layout_below="@+id/linearLayoutLR2"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="8dp"
         android:gravity="center_horizontal"
         android:orientation="horizontal"
         android:paddingLeft="20dp"
@@ -132,23 +134,27 @@
             android:id="@+id/radioSide1"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
+            android:layout_marginEnd="@dimen/radio_button_margin"
             android:layout_weight="1"
             android:background="@drawable/radio_button_background"
             android:button="@android:color/transparent"
             android:text="@string/side_1"
             android:textAlignment="center"
-            android:textSize="18sp" />
+            android:layout_marginRight="@dimen/radio_button_margin"
+            android:textSize="@dimen/fragment_value_text" />
 
         <RadioButton
             android:id="@+id/radioSide2"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
+            android:layout_marginLeft="@dimen/radio_button_margin"
             android:layout_weight="1"
             android:background="@drawable/radio_button_background"
             android:button="@android:color/transparent"
             android:text="@string/side_2"
             android:textAlignment="center"
-            android:textSize="18sp" />
+            android:layout_marginStart="@dimen/radio_button_margin"
+            android:textSize="@dimen/fragment_value_text" />
     </RadioGroup>
 
     <TextView
@@ -156,10 +162,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/radioGroupSides"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="16dp"
         android:gravity="center"
         android:text="@string/front_to_back"
-        android:textSize="24sp"
+        android:textSize="@dimen/fragment_header_text"
         android:textStyle="bold" />
 
     <LinearLayout
@@ -175,13 +181,15 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="@string/steps"
-            android:textSize="18sp" />
+            android:textSize="@dimen/fragment_value_text" />
 
         <RadioGroup
             android:id="@+id/radioGroupOnFrontBehind"
             android:layout_width="0dp"
             android:layout_height="@dimen/radio_button_height"
+            android:layout_marginEnd="@dimen/radio_group_padding_small"
             android:layout_weight="2"
+            android:layout_marginRight="@dimen/radio_group_padding_small"
             android:orientation="horizontal">
 
             <RadioButton
@@ -193,18 +201,20 @@
                 android:button="@android:color/transparent"
                 android:text="@string/on"
                 android:textAlignment="center"
-                android:textSize="18sp" />
+                android:textSize="@dimen/fragment_value_text" />
 
             <RadioButton
                 android:id="@+id/radioInFront"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
+                android:layout_marginLeft="@dimen/radio_button_margin"
+                android:layout_marginRight="@dimen/radio_button_margin"
                 android:layout_weight="1"
                 android:background="@drawable/radio_button_background"
                 android:button="@android:color/transparent"
                 android:text="@string/in_front"
                 android:textAlignment="center"
-                android:textSize="18sp" />
+                android:textSize="@dimen/fragment_value_text" />
 
             <RadioButton
                 android:id="@+id/radioBehind"
@@ -215,7 +225,7 @@
                 android:button="@android:color/transparent"
                 android:text="@string/behind"
                 android:textAlignment="center"
-                android:textSize="18sp" />
+                android:textSize="@dimen/fragment_value_text" />
         </RadioGroup>
 
     </LinearLayout>
@@ -241,8 +251,8 @@
             android:layout_height="@dimen/radio_button_height"
             android:layout_weight="1"
             android:orientation="horizontal"
-            android:paddingLeft="8dp"
-            android:paddingRight="8dp">
+            android:paddingLeft="@dimen/radio_group_padding_small"
+            android:paddingRight="@dimen/radio_group_padding_small">
 
             <RadioButton
                 android:id="@+id/radioFront"
@@ -253,18 +263,20 @@
                 android:button="@android:color/transparent"
                 android:text="@string/front"
                 android:textAlignment="center"
-                android:textSize="18sp" />
+                android:textSize="@dimen/fragment_value_text" />
 
             <RadioButton
                 android:id="@+id/radioBack"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
+                android:layout_marginLeft="@dimen/radio_button_margin"
                 android:layout_weight="1"
                 android:background="@drawable/radio_button_background"
                 android:button="@android:color/transparent"
                 android:text="@string/back"
                 android:textAlignment="center"
-                android:textSize="18sp" />
+                android:layout_marginStart="@dimen/radio_button_margin"
+                android:textSize="@dimen/fragment_value_text" />
         </RadioGroup>
 
         <RadioGroup
@@ -273,19 +285,21 @@
             android:layout_height="@dimen/radio_button_height"
             android:layout_weight="1"
             android:orientation="horizontal"
-            android:paddingLeft="8dp"
-            android:paddingRight="8dp">
+            android:paddingLeft="@dimen/radio_group_padding_small"
+            android:paddingRight="@dimen/radio_group_padding_small">
 
             <RadioButton
                 android:id="@+id/radioHash"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
+                android:layout_marginEnd="@dimen/radio_button_margin"
                 android:layout_weight="1"
                 android:background="@drawable/radio_button_background"
                 android:button="@android:color/transparent"
                 android:text="@string/hash"
                 android:textAlignment="center"
-                android:textSize="18sp" />
+                android:layout_marginRight="@dimen/radio_button_margin"
+                android:textSize="@dimen/fragment_value_text" />
 
             <RadioButton
                 android:id="@+id/radioSideline"
@@ -296,7 +310,7 @@
                 android:button="@android:color/transparent"
                 android:text="@string/sideline"
                 android:textAlignment="center"
-                android:textSize="18sp" />
+                android:textSize="@dimen/fragment_value_text" />
         </RadioGroup>
 
     </LinearLayout>
@@ -307,7 +321,8 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/linearLayoutFB2"
         android:layout_gravity="bottom"
-        android:text="@string/next" />
+        android:text="@string/next"
+        android:textSize="@dimen/fragment_button_text" />
 
     <ProgressBar
         android:id="@+id/progressBar"
@@ -315,8 +330,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_above="@id/inputAdView"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
+        android:layout_marginLeft="@dimen/fragment_progress_margin"
+        android:layout_marginRight="@dimen/fragment_progress_margin"
         android:max="4"
         android:progress="1" />
 
@@ -326,7 +341,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        ads:adSize="SMART_BANNER"
+        ads:adSize="BANNER"
         ads:adUnitId="ca-app-pub-3940256099942544/6300978111" />
 
 </RelativeLayout>

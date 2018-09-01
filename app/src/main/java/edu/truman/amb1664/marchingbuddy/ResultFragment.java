@@ -10,6 +10,9 @@ import android.widget.Button;
 import android.widget.Switch;
 import android.widget.TextView;
 
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+
 /**
  * @author Andrew Brogan
  * @since 3/21/2017
@@ -47,6 +50,11 @@ public class ResultFragment extends Fragment implements View.OnClickListener {
         resultMidPointText.setText(MidSet.printCoordinate(MidSet.getMidSetCoordinate(start, end, specificity), f));
         // Populate Step Size TextView
         resultStepSizeText.setText(MidSet.getStepSize(start, end, specificity, counts));
+
+        // AdView Setup
+        AdView adView = (AdView) v.findViewById(R.id.resultAdView);
+        AdRequest adRequest = new AdRequest.Builder().addTestDevice(AdRequest.DEVICE_ID_EMULATOR).build();
+        adView.loadAd(adRequest);
 
 
         b.setOnClickListener(this);
