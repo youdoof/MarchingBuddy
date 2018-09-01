@@ -53,7 +53,7 @@ public class ReviewFragment extends Fragment implements View.OnClickListener {
                     content = (progress + 1) + " Counts";
                 }
                 countsContent.setText(content);
-                counts = progress;
+                counts = progress + 1;
             }
 
             @Override
@@ -63,7 +63,7 @@ public class ReviewFragment extends Fragment implements View.OnClickListener {
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
-                counts = seekBarCounts.getProgress();
+                counts = seekBarCounts.getProgress() + 1;
             }
         });
 
