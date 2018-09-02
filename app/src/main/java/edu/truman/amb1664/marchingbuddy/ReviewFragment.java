@@ -1,6 +1,7 @@
 package edu.truman.amb1664.marchingbuddy;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -24,12 +25,12 @@ public class ReviewFragment extends Fragment implements View.OnClickListener {
 
     @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.new_review_fragment, container, false);
         // New Stuff:
-        TextView startPointContent = (TextView) v.findViewById(R.id.textReviewStartPointContent);
-        TextView endPointContent = (TextView) v.findViewById(R.id.textReviewEndPointContent);
-        final TextView countsContent = (TextView) v.findViewById(R.id.textCounts);
+        TextView startPointContent = v.findViewById(R.id.textReviewStartPointContent);
+        TextView endPointContent = v.findViewById(R.id.textReviewEndPointContent);
+        final TextView countsContent = v.findViewById(R.id.textCounts);
         int fieldType = ((MainActivity) getActivity()).readFieldType();
         int hashType = ((MainActivity) getActivity()).readHashType();
         int sideType = ((MainActivity) getActivity()).readSideType();
@@ -42,14 +43,14 @@ public class ReviewFragment extends Fragment implements View.OnClickListener {
         endPointContent.setText(MidSet.printCoordinate(end, f));
 
         // AdView Setup
-        AdView adView = (AdView) v.findViewById(R.id.reviewAdView);
+        AdView adView = v.findViewById(R.id.reviewAdView);
         AdRequest adRequest = new AdRequest.Builder().addTestDevice(AdRequest.DEVICE_ID_EMULATOR).build();
         adView.loadAd(adRequest);
 
         /*
         Counts SeekBar Setup
          */
-        final SeekBar seekBarCounts = (SeekBar) v.findViewById(R.id.seekBarCounts);
+        final SeekBar seekBarCounts = v.findViewById(R.id.seekBarCounts);
         seekBarCounts.setMax(63);
         seekBarCounts.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
@@ -75,7 +76,7 @@ public class ReviewFragment extends Fragment implements View.OnClickListener {
             }
         });
 
-        Button b = (Button) v.findViewById(R.id.buttonCalculate);
+        Button b = v.findViewById(R.id.buttonCalculate);
         b.setOnClickListener(this);
         return v;
     }

@@ -54,10 +54,6 @@ public class MainActivity extends AppCompatActivity {
         this.endCoordinate = endCoordinate;
     }
 
-//    public Field getField() {
-//        return field;
-//    }
-
     public int getCounts() {
         return counts;
     }
@@ -81,8 +77,6 @@ public class MainActivity extends AppCompatActivity {
                 return;
             }
         }
-//        ca-app-pub-3940256099942544/6300978111 -- Test ID
-//        MobileAds.initialize(this, "ca-app-pub-3940256099942544/6300978111");
 
         StartFragment startFragment = new StartFragment();
         startFragment.setArguments(getIntent().getExtras());

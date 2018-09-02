@@ -1,6 +1,7 @@
 package edu.truman.amb1664.marchingbuddy;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -24,14 +25,14 @@ public class ResultFragment extends Fragment implements View.OnClickListener {
 
     @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.new_result_fragment, container, false);
-        Button b = (Button) v.findViewById(R.id.buttonFindNext);
-        TextView resultStartPointText = (TextView) v.findViewById(R.id.textResultStartPointContent);
-        TextView resultEndPointText = (TextView) v.findViewById(R.id.textResultEndPointContent);
-        TextView resultMidPointText = (TextView) v.findViewById(R.id.textResultMidpointContent);
-        TextView resultStepSizeText = (TextView) v.findViewById(R.id.textResultStepSizeContent);
-        resultSwitchCopy = (Switch) v.findViewById(R.id.resultSwitchCopy);
+        Button b = v.findViewById(R.id.buttonFindNext);
+        TextView resultStartPointText = v.findViewById(R.id.textResultStartPointContent);
+        TextView resultEndPointText = v.findViewById(R.id.textResultEndPointContent);
+        TextView resultMidPointText = v.findViewById(R.id.textResultMidpointContent);
+        TextView resultStepSizeText = v.findViewById(R.id.textResultStepSizeContent);
+        resultSwitchCopy = v.findViewById(R.id.resultSwitchCopy);
         int fieldType = ((MainActivity) getActivity()).readFieldType();
         int hashType = ((MainActivity) getActivity()).readHashType();
         int sideType = ((MainActivity) getActivity()).readSideType();
@@ -52,7 +53,7 @@ public class ResultFragment extends Fragment implements View.OnClickListener {
         resultStepSizeText.setText(MidSet.getStepSize(start, end, specificity, counts));
 
         // AdView Setup
-        AdView adView = (AdView) v.findViewById(R.id.resultAdView);
+        AdView adView = v.findViewById(R.id.resultAdView);
         AdRequest adRequest = new AdRequest.Builder().addTestDevice(AdRequest.DEVICE_ID_EMULATOR).build();
         adView.loadAd(adRequest);
 
